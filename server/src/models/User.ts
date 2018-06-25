@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, OneToMany} from "typeorm";
+import { Collection } from "./Collection";
 
 @Entity()
 export class User {
@@ -6,13 +7,12 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    firstName: string;
+    @Column({length: 100})
+    email: string;
 
-    @Column()
-    lastName: string;
+    @Column({length: 15})
+    password: string;
 
-    @Column()
-    age: number;
-
+    @OneToMany(type => Collection, collection => collection.user)
+    collections: Collection[];
 }
