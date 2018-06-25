@@ -6,6 +6,10 @@ export class CollectionRestaurantService extends AbstractService<CollectionResta
     protected repository = getRepository(CollectionRestaurant);
 
     async getCollectionRestByColId(id: number){
-        return this.repository.find({collection: {id: id}});
+        return this.repository
+            .createQueryBuilder('cr')
+            .leftJoinAndSelect('cr.restaurant', 'restaurant')
+            .where('cr.collectionId = :id', {id})
+            .getMany();
     }
 }

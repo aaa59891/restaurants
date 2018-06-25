@@ -1,16 +1,16 @@
-import { CollectionService } from "../services/CollectionService";
-import { Request, Response, NextFunction } from "express";
 import { AbstractController } from "./AbstractController";
+import { CollectionRestaurantService } from "../services/CollectionRestaurantService";
+import { Request, Response, NextFunction } from "express";
 import { Errors } from "../shared/Error";
 
-export class CollcetionController extends AbstractController{
-    constructor(private collectionService: CollectionService){
-        super()
+export class CollectionRestaurantController extends AbstractController{
+    constructor(private crService: CollectionRestaurantService){
+        super();
     }
 
-    async addCollection(req: Request, res: Response, next: NextFunction){
+    async addCollRestaurant(req: Request, res: Response, next: NextFunction){
         try {
-            const result = await this.collectionService.save(req.body);
+            const result = await this.crService.save(req.body);
             res.send(result);
         } catch (error) {
             console.error(error);
@@ -18,9 +18,9 @@ export class CollcetionController extends AbstractController{
         }
     }
 
-    async getCollection(req: Request, res: Response, next: NextFunction){
+    async getCollRestaurants(req: Request, res: Response, next: NextFunction){
         try {
-            const result = await this.collectionService.getCollectionByUserId(this.getNumberParameter(req, 'id'));
+            const result = await this.crService.getCollectionRestByColId(this.getNumberParameter(req, 'id'));
             res.send(result);
         } catch (error) {
             console.error(error);
@@ -35,9 +35,9 @@ export class CollcetionController extends AbstractController{
         }
     }
 
-    async deleteCollection(req: Request, res: Response, next: NextFunction){
+    async deleteCr(req: Request, res: Response, next: NextFunction){
         try {
-            await this.collectionService.deleteById(this.getNumberParameter(req, 'id'));
+            await this.crService.deleteById(this.getNumberParameter(req, 'id'))
             res.send();
         } catch (error) {
             console.error(error);

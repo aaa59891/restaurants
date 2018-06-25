@@ -9,10 +9,11 @@ export class UserController {
         try {
             const result = await this.userService.signUp(req.body)
             res.send(result);
-        } catch (e) {
-            switch (e) {
+        } catch (error) {
+            console.error(error);
+            switch (error) {
                 case UserErrors.EmailExist:
-                    res.status(401).send(e);
+                    res.status(401).send(error);
                     break;
                 default:
                     res.status(500).send();
@@ -25,11 +26,12 @@ export class UserController {
         try {
             await this.userService.singIn(req.body);
             res.send();
-        } catch (e) {
-            switch(e){
+        } catch (error) {
+            console.error(error);
+            switch(error){
                 case UserErrors.UserNotFound:
                 case UserErrors.WrongPassword:
-                    res.status(401).send(e);
+                    res.status(401).send(error);
                     break;
                 default:
                     res.status(500).send();

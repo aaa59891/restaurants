@@ -4,6 +4,8 @@ import { UserService } from "./services/UserService";
 import { ServiceProvider } from "./Provider";
 import { CollectionService } from "./services/CollectionService";
 import { CollcetionController } from "./controller/CollectionController";
+import { CollectionRestaurantController } from "./controller/CollectionRestaurantController";
+import { CollectionRestaurantService } from "./services/CollectionRestaurantService";
 
 enum HttpMethod{
     POST = 'post',
@@ -16,6 +18,8 @@ export function setRoutes(app: Application){
 
     const userController = new UserController(ServiceProvider.getService(UserService));
     const collectionController = new CollcetionController(ServiceProvider.getService(CollectionService));
+    const crController = new CollectionRestaurantController(ServiceProvider.getService(CollectionRestaurantService));
+
     const routes = [{
         method: HttpMethod.POST,
         route: "/signup",
@@ -36,6 +40,18 @@ export function setRoutes(app: Application){
         method: HttpMethod.DELETE,
         route: "/collection/:id", 
         controller: collectionController.deleteCollection.bind(collectionController)
+    },{
+        method: HttpMethod.POST,
+        route: "/collection_restaurant", 
+        controller: crController.addCollRestaurant.bind(crController)
+    },{
+        method: HttpMethod.GET,
+        route: "/collection_restaurant/:id", 
+        controller: crController.getCollRestaurants.bind(crController)
+    },{
+        method: HttpMethod.DELETE,
+        route: "/collection_restaurant/:id", 
+        controller: crController.deleteCr.bind(crController)
     }];
 
     for(let route of routes){
