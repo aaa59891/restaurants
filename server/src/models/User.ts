@@ -10,7 +10,7 @@ export class User {
     @Column({length: 100})
     email: string;
 
-    @Column({length: 15})
+    @Column({length: 64})
     password: string;
 
     @OneToMany(type => Collection, collection => collection.user)

@@ -1,24 +1,41 @@
-import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
-import { User } from "../models/User";
+import { UserService, UserErrors } from "../services/UserService";
 
 export class UserController {
-    private userRepository = getRepository(User);
 
-    async all(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.find();
+    constructor(private userService: UserService){}
+
+    async signUp(req: Request, res: Response, next: NextFunction) {
+        try {
+            const result = await this.userService.signUp(req.body)
+            res.send(result);
+        } catch (e) {
+            switch (e) {
+                case UserErrors.EmailExist:
+                    res.status(401).send(e);
+                    break;
+                default:
+                    res.status(500).send();
+                    break;
+            }
+        }
     }
 
-    async one(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.findOne(request.params.id);
-    }
-
-    async save(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.save(request.body);
-    }
-
-    async remove(request: Request, response: Response, next: NextFunction) {
-        await this.userRepository.delete(request.params.id);
+    async signIn(req: Request, res: Response, next: NextFunction){
+        try {
+            await this.userService.singIn(req.body);
+            res.send();
+        } catch (e) {
+            switch(e){
+                case UserErrors.UserNotFound:
+                case UserErrors.WrongPassword:
+                    res.status(401).send(e);
+                    break;
+                default:
+                    res.status(500).send();
+                    break;
+            }
+        }   
     }
 
 }
