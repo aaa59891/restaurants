@@ -11,10 +11,10 @@ export class OpeningHours{
     day: number;
 
     @Column('time')
-    openTime: Date;
+    openTime: string;
     
     @Column('time')
-    closeTime: Date;
+    closeTime: string;
 
     @ManyToOne(type => Restaurant, restaurant => restaurant.openingHours)
     restaurant: Restaurant;

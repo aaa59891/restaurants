@@ -10,6 +10,6 @@ export class Restaurant{
     @Column({length: 100})
     name: string;
 
-    @OneToMany(type => OpeningHours, openingHours => openingHours.restaurant)
+    @OneToMany(type => OpeningHours, openingHours => openingHours.restaurant, {cascade: true})
     openingHours: OpeningHours[];
 }
