@@ -19,7 +19,10 @@ export class UserService extends AbstractService<User>{
             throw UserErrors.EmailExist;
         }
         user.password = bcrypt.hashSync(user.password, config.bcrypt.salt || 10);
-        return this.save(user);
+        await this.save(user);
+        const userTemp = {...user}
+        delete userTemp.password;
+        return userTemp;
     }
 
     async singIn(user: User){
@@ -30,6 +33,8 @@ export class UserService extends AbstractService<User>{
         if(!bcrypt.compareSync(user.password, dbUser.password)){
             throw UserErrors.WrongPassword;
         }
-        return true;
+        const userTemp = {...dbUser};
+        delete userTemp.password;
+        return userTemp;
     }
 }

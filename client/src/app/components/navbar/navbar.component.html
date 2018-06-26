@@ -9,10 +9,10 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <ul class="navbar-nav navbar-right">
-            <li class="nav-item">
-                <a class="nav-link pointer" (click)="onLogin()">Login</a>
+            <li *ngIf="!(authService.email | async)" class="nav-item">
+                <a class="nav-link pointer" routerLink="/login">Login</a>
             </li>
-            <li class="nav-item">
+            <li *ngIf="(authService.email | async)" class="nav-item">
                 <a class="nav-link pointer" (click)="onLogout()">Logout</a>
             </li>
         </ul>

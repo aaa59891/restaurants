@@ -24,8 +24,8 @@ export class UserController {
 
     async signIn(req: Request, res: Response, next: NextFunction){
         try {
-            await this.userService.singIn(req.body);
-            res.send();
+            const user = await this.userService.singIn(req.body);
+            res.send(user);
         } catch (error) {
             console.error(error);
             switch(error){
