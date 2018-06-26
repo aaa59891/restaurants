@@ -21,11 +21,9 @@ export class LoginComponent extends AutoUnsubscribe implements OnInit {
     }
     @ViewChild('form') form: NgForm;
     ngOnInit() {
-        this.subscriptions.push(
-            this.authService.email.subscribe(
-                (email) => email? this.router.navigate(['/']): null
-            )
-        );
+        if(this.authService.email){
+            this.router.navigate(['/']);
+        }
     }
 
     onLogin(){
@@ -71,7 +69,8 @@ export class LoginComponent extends AutoUnsubscribe implements OnInit {
     }
 
     private loginSignupSuccess(user: User){
-        this.authService.email.next(user.email);
-        this.authService.userId.next(user.id);
+        this.authService.email = user.email;
+        this.authService.userId = user.id;
+        this.router.navigate(['/']);
     }
 }

@@ -17,9 +17,10 @@ export enum SignupError{
     providedIn: "root"
 })
 export class AuthService {
-    email = new Subject<String>();
-    userId = new Subject<number>();
-    constructor(private http: HttpClient) {}
+    email: string;
+    userId: number;
+    constructor(private http: HttpClient) {
+    }
 
     login(user: User){
         return this.http.post(environment.url + 'signin', user)
