@@ -1,3 +1,15 @@
-<p>
-  restaurant-search-form works!
-</p>
+<form class="form-inline" (ngSubmit)="onSearch()">
+    <label for="datetime">Choose time: </label>
+    <input 
+        id="datetime"
+        class="form-control" 
+        name="datetime" 
+        [(ngModel)]="datetime" 
+        mode="daytime" 
+        [dpDayPicker]="pickerConfig" 
+        theme="dp-material" 
+        autocomplete="off"
+        onkeydown="return false"
+        />
+        <button class="btn btn-primary">Search Restaurants</button>
+</form>

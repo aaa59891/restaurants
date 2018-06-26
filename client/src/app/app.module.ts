@@ -12,6 +12,7 @@ import { CollectionRestaurantListComponent } from './components/collection-resta
 import { HomeComponent } from './components/home/home.component';
 import { RoutesModule } from './routes/routes.module';
 import { LoginComponent } from './components/login/login.component';
+import {DpDatePickerModule} from 'ng2-date-picker';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoginComponent } from './components/login/login.component';
     BrowserModule,
     FormsModule,
     RoutesModule,
-    HttpClientModule
+    HttpClientModule,
+    DpDatePickerModule
     
   ],
   providers: [],

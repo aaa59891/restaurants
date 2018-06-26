@@ -1,3 +1,7 @@
-<p>
-  restaurant-list works!
-</p>
+<div *ngIf="restaurants">
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let rest of restaurants">
+            {{ rest.name }}
+        </li>
+    </ul>
+</div>
