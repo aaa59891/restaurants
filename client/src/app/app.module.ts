@@ -7,6 +7,9 @@ import { RestaurantListComponent } from './components/restaurant-list/restaurant
 import { RestaurantSearchFormComponent } from './components/restaurant-search-form/restaurant-search-form.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { CollectionRestaurantListComponent } from './components/collection-restaurant-list/collection-restaurant-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { RoutesModule } from './routes/routes.module';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -15,10 +18,13 @@ import { CollectionRestaurantListComponent } from './components/collection-resta
     RestaurantListComponent,
     RestaurantSearchFormComponent,
     CollectionComponent,
-    CollectionRestaurantListComponent
+    CollectionRestaurantListComponent,
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RoutesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
