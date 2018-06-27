@@ -15,6 +15,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { DpDatePickerModule } from "ng2-date-picker";
 import { CollectionRestaurantItemComponent } from "./components/collection-restaurant-item/collection-restaurant-item.component";
 import { AuthInterceptor } from "./interceptors/AuthInterceptor";
+import { CollaborateGuard } from "./guards/collaborate.guard";
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { AuthInterceptor } from "./interceptors/AuthInterceptor";
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
             multi: true
-        }
+        },
+        CollaborateGuard
     ],
     bootstrap: [AppComponent]
 })

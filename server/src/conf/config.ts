@@ -22,7 +22,7 @@ const defaultConfig: Config = {
         account: 'chong901.test@gmail.com',
         password: '12#$qwer'
     },
-    url: 'http://localhost:3000',
+    url: 'http://localhost:4200',
     jwt:{
         secret: 'secret',
         expiresIn: 60 * 60 * 60 * 24 // unit: second
