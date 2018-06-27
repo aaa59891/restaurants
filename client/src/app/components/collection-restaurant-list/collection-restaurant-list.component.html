@@ -1,10 +1,45 @@
-<label for="collection">Collection: </label>
-<select name="collection" id="collection" class="form-control" (change)="onChangeCollection($event.target.value)">
-    <option value=""></option>
-    <option *ngFor="let col of collections" [value]="col.id">{{ col.name }}</option>
-</select>
+<div class="row">
+    <div class="col-9">
+        <form class="form-inline">
+            <label for="collection">Collection: </label>
+            <select name="collection" id="collection" class="form-control" (change)="onChangeCollection($event.target.value)">
+                <option value=""></option>
+                <option *ngFor="let col of collections" [value]="col.id">{{ col.name }}</option>
+            </select>
+        </form>
+    </div>
+    <div class="col-3">
+        <button class="btn btn-primary" type="button" (click)="onOpenModal()">Share</button>
+    </div>
+</div>
+
+<p></p>
 <ul class="list-group">
     <li class="list-group-item" *ngFor="let restaurant of collectionRestaurants">
         <app-collection-restaurant-item [restaurant]="restaurant"></app-collection-restaurant-item>
     </li>
 </ul>
+
+<!-- The Modal -->
+<div class="modal" id="emailModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Send to Friend</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form #emailForm="ngForm">
+                        <input type="email" name="email" ngModel class="form-control" placeholder="Friend's email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)="onSend()" [disabled]="emailForm.invalid">Send</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>

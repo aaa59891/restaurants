@@ -43,4 +43,9 @@ export class CollectionService {
     getCollection(){
         return this.http.get(environment.url + `collection/${this.authService.userId}`);
     }
+
+    shareWithFriend(email: string){
+        const payload = {email, userId: this.authService.userId};
+        return this.http.post(environment.url + 'mailToFriend', payload);
+    }
 }

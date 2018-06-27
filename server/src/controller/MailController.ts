@@ -8,13 +8,13 @@ export class MailController{
 
     async sendEmailToFriend(req: Request, res: Response, next: NextFunction){
         try {
-            const {email, userId, collectionId} = req.body;
+            const {email, userId} = req.body;
             if(!email){
                 res.status(401).send('Email is empty.');
                 return;
             }
-            const url = await this.mailService.sendMailToEmail(email, userId, collectionId);
-            res.send(url);
+            const url = await this.mailService.sendMailToEmail(email, userId);
+            res.send({url});
         } catch (error) {
             console.error(error);
             res.status(500).send();

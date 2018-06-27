@@ -1,9 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { CollectionService } from "../../services/collection.service";
 import { Collection } from "../../models/collection";
 import { AutoUnsubscribe } from "../../shared/autoUnsubscribe";
 import { CollectionRestaurantService } from "../../services/collection-restaurant.service";
 import { CollectionRestaurant } from "../../models/collectionRestaurant";
+import { NgForm } from "@angular/forms";
+declare let $: any;
 
 @Component({
     selector: "app-collection-restaurant-list",
@@ -14,6 +16,7 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
     protected subscriptions = [];
     collections: Collection[] = [];
     collectionRestaurants: CollectionRestaurant[] = [];
+    @ViewChild('emailForm') emailForm: NgForm;
     constructor(
         private collectionService: CollectionService,
         private collectionRestaurantService: CollectionRestaurantService
@@ -57,6 +60,21 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
                     this.collectionRestaurants = res;
                     this.sendCurrentRestaurantIds();
                 } 
+            )
+    }
+
+    onOpenModal(){
+        $('#emailModal').modal('show');
+    }
+    onSend(){
+        $('body').css({cursor: 'progress'});
+        this.collectionService.shareWithFriend(this.emailForm.value['email'])
+            .subscribe(
+                res => {
+                    alert('Sent email successfully.');
+                    $('body').css({cursor: 'auto'});
+                    $('#emailModal').modal('hide');
+                }
             )
     }
 
