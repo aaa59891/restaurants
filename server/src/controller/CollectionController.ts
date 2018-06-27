@@ -2,6 +2,7 @@ import { CollectionService } from "../services/CollectionService";
 import { Request, Response, NextFunction } from "express";
 import { AbstractController } from "./AbstractController";
 import { Errors } from "../shared/Error";
+import { QueryFailedError } from "typeorm";
 
 export class CollcetionController extends AbstractController{
     constructor(private collectionService: CollectionService){
@@ -14,6 +15,14 @@ export class CollcetionController extends AbstractController{
             res.send(result);
         } catch (error) {
             console.error(error);
+            if(
+                error instanceof QueryFailedError 
+                &&
+                (<QueryFailedError>error).message.indexOf('Duplicate') !== -1
+            ){
+                res.status(401).send('This name is duplicate');
+                return;
+            }
             res.status(500).send();
         }
     }

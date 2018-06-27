@@ -1,3 +1,5 @@
-<p>
-  collection-restaurant-list works!
-</p>
+<label for="collection">Collection: </label>
+<select name="collection" id="collection" class="form-control">
+    <option value=""></option>
+    <option *ngFor="let col of collections" [value]="col.id">{{ col.name }}</option>
+</select>

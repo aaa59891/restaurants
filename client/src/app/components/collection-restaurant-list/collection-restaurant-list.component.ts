@@ -1,15 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { CollectionService } from "../../services/collection.service";
+import { Collection } from "../../models/collection";
+import { AutoUnsubscribe } from "../../shared/autoUnsubscribe";
 
 @Component({
-  selector: 'app-collection-restaurant-list',
-  templateUrl: './collection-restaurant-list.component.html',
-  styleUrls: ['./collection-restaurant-list.component.css']
+    selector: "app-collection-restaurant-list",
+    templateUrl: "./collection-restaurant-list.component.html",
+    styleUrls: ["./collection-restaurant-list.component.css"]
 })
-export class CollectionRestaurantListComponent implements OnInit {
+export class CollectionRestaurantListComponent extends AutoUnsubscribe implements OnInit {
+    protected subscriptions = [];
+    collections: Collection[] = [];
+    constructor(private colService: CollectionService) {
+        super();
+    }
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+    ngOnInit() {
+        this.subscriptions.push(
+            this.colService.collectionAddSub.subscribe(
+                (col) => {
+                    this.collections.push(col);
+                }
+            )
+        )
+        this.colService.getCollection().subscribe(
+            (data: Collection[]) => this.collections = data
+        );
+    }
 }
