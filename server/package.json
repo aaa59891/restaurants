@@ -13,6 +13,7 @@
       "@types/jsonwebtoken": "^7.2.7",
       "@types/lodash": "^4.14.110",
       "@types/nodemailer": "^4.6.2",
+      "@types/socket.io": "^1.4.36",
       "bcrypt": "^2.0.1",
       "body-parser": "^1.18.1",
       "cors": "^2.8.4",
@@ -22,6 +23,7 @@
       "mysql": "^2.14.1",
       "nodemailer": "^4.6.7",
       "reflect-metadata": "^0.1.10",
+      "socket.io": "^2.1.1",
       "typeorm": "0.2.7"
    },
    "scripts": {

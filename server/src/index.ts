@@ -7,6 +7,7 @@ import { InitRestaurant } from "./init/InitRestaurant";
 import { join } from 'path';
 import { ServiceProvider } from "./Provider";
 import { RestaurantService } from "./services/RestaurantService";
+import * as socket from 'socket.io';
 
 createConnection().then(async _ => {
     // create express app
@@ -18,6 +19,8 @@ createConnection().then(async _ => {
         });
     }
     const app = express();
+    var http = require('http').Server(app);
+    var io = socket(http);
     app.use(require('cors')());
     app.use(bodyParser.json());
     // register express routes from defined application routes
@@ -26,8 +29,12 @@ createConnection().then(async _ => {
     // setup express app here
     // ...
 
+    io.on('connect', (socket) => {
+        console.log('socket connect');
+    })
     // start express server
-    app.listen(3000);
-    console.log("Express server has started on port 3000.");
+    http.listen(3000, () => {
+        console.log("Express server has started on port 3000.");
+    });
 
 }).catch(error => console.log(error));
