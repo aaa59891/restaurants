@@ -7,7 +7,7 @@ import { InitRestaurant } from "./init/InitRestaurant";
 import { join } from 'path';
 import { ServiceProvider } from "./Provider";
 import { RestaurantService } from "./services/RestaurantService";
-const cors = require('cors');
+
 createConnection().then(async _ => {
     // create express app
     const restaurantService: RestaurantService = ServiceProvider.getService(RestaurantService);
@@ -18,7 +18,7 @@ createConnection().then(async _ => {
         });
     }
     const app = express();
-    app.use(cors());
+    app.use(require('cors')());
     app.use(bodyParser.json());
     // register express routes from defined application routes
     setRoutes(app);

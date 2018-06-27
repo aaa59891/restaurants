@@ -8,6 +8,8 @@ import { CollectionRestaurantController } from "./controller/CollectionRestauran
 import { CollectionRestaurantService } from "./services/CollectionRestaurantService";
 import { RestaurantController } from "./controller/RestaurantController";
 import { RestaurantService } from "./services/RestaurantService";
+import { MailController } from "./controller/MailController";
+import { MailService } from "./services/MailService";
 
 enum HttpMethod{
     POST = 'post',
@@ -22,6 +24,7 @@ export function setRoutes(app: Application){
     const collectionController = new CollcetionController(ServiceProvider.getService(CollectionService));
     const crController = new CollectionRestaurantController(ServiceProvider.getService(CollectionRestaurantService));
     const restaurantController = new RestaurantController(ServiceProvider.getService(RestaurantService));
+    const mailController = new MailController(ServiceProvider.getService(MailService));
 
     const routes = [{
         method: HttpMethod.POST,
@@ -63,6 +66,10 @@ export function setRoutes(app: Application){
         method: HttpMethod.GET,
         route: "/restaurants", 
         controller: restaurantController.getRestaurants.bind(restaurantController)
+    },{
+        method: HttpMethod.POST,
+        route: "/mailToFriend", 
+        controller: mailController.sendEmailToFriend.bind(mailController)
     }];
 
     for(let route of routes){
