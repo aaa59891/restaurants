@@ -21,7 +21,7 @@ createConnection().then(async _ => {
     const app = express();
     var http = require('http').Server(app);
     var io = socket(http);
-    app.use(require('cors')());
+    app.use(require('cors')({origin: '*'}));
     app.use(bodyParser.json());
     // register express routes from defined application routes
     setRoutes(app);
