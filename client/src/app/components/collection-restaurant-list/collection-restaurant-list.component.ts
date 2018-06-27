@@ -40,7 +40,7 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
     onChangeCollection(collectionId: string){
         if(!collectionId){
             this.collectionRestaurants = [];
-            this.collectionRestaurantService.currentRestaurantIds.next([]);
+            this.collectionRestaurantService.currentRestaurantIdsSub.next([]);
             return;
         }
         const id = parseInt(collectionId);
@@ -48,7 +48,7 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
         this.collectionRestaurantService.getCollectionRestaurants(id)
             .subscribe(
                 (res: CollectionRestaurant[]) =>{
-                    this.collectionRestaurantService.currentRestaurantIds.next(
+                    this.collectionRestaurantService.currentRestaurantIdsSub.next(
                         res.map((res) => res.restaurant.id)
                     );
                     this.collectionRestaurants = res;

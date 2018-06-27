@@ -56,6 +56,10 @@ export function setRoutes(app: Application){
         route: "/collection_restaurant/:id", 
         controller: crController.deleteCr.bind(crController)
     },{
+        method: HttpMethod.PUT,
+        route: "/collection_restaurant", 
+        controller: crController.updateCr.bind(crController)
+    },{
         method: HttpMethod.GET,
         route: "/restaurants", 
         controller: restaurantController.getRestaurants.bind(restaurantController)

@@ -10,7 +10,7 @@ export class CollectionRestaurantController extends AbstractController{
 
     async addCollRestaurant(req: Request, res: Response, next: NextFunction){
         try {
-            const result = await this.crService.save(req.body);
+            const result = await this.crService.create(req.body);
             res.send(result);
         } catch (error) {
             console.error(error);
@@ -49,6 +49,16 @@ export class CollectionRestaurantController extends AbstractController{
                     res.status(500).send();
                     break;
             }
+        }
+    }
+
+    async updateCr(req: Request, res: Response, next: NextFunction){
+        try {
+            const result = await this.crService.updateCollectionRestaurantName(req.body)
+            res.send(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send();
         }
     }
 }

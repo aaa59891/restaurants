@@ -12,4 +12,13 @@ export class CollectionRestaurantService extends AbstractService<CollectionResta
             .where('cr.collectionId = :id', {id})
             .getMany();
     }
+
+    async updateCollectionRestaurantName(restaurant: CollectionRestaurant){
+        return this.repository
+            .createQueryBuilder()
+            .update(CollectionRestaurant)
+            .set({name: restaurant.name})
+            .where('id = :id', {id: restaurant.id})
+            .execute();
+    }
 }

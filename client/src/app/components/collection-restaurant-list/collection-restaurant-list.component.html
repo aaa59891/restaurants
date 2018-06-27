@@ -5,6 +5,6 @@
 </select>
 <ul class="list-group">
     <li class="list-group-item" *ngFor="let restaurant of collectionRestaurants">
-        {{restaurant.name}}
+        <app-collection-restaurant-item [restaurant]="restaurant"></app-collection-restaurant-item>
     </li>
 </ul>

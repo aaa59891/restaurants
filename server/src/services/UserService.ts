@@ -19,7 +19,7 @@ export class UserService extends AbstractService<User>{
             throw UserErrors.EmailExist;
         }
         user.password = bcrypt.hashSync(user.password, config.bcrypt.salt || 10);
-        await this.save(user);
+        await this.create(user);
         const userTemp = {...user}
         delete userTemp.password;
         return userTemp;

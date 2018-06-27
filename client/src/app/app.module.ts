@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RoutesModule } from './routes/routes.module';
 import { LoginComponent } from './components/login/login.component';
 import {DpDatePickerModule} from 'ng2-date-picker';
+import { CollectionRestaurantItemComponent } from './components/collection-restaurant-item/collection-restaurant-item.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {DpDatePickerModule} from 'ng2-date-picker';
     CollectionComponent,
     CollectionRestaurantListComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    CollectionRestaurantItemComponent
   ],
   imports: [
     BrowserModule,

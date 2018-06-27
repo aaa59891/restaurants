@@ -13,7 +13,7 @@ import { CollectionRestaurantService } from "../../services/collection-restauran
 })
 export class RestaurantListComponent extends AutoUnsubscribe implements OnInit {
     protected subscriptions = [];
-    restaurants: Restaurant[];
+    restaurants: Restaurant[] = [];
     constructor(
         private restaurantService: RestaurantService,
         private collectionService: CollectionService,
@@ -25,10 +25,13 @@ export class RestaurantListComponent extends AutoUnsubscribe implements OnInit {
     ngOnInit() {
         this.subscriptions.push(
             this.restaurantService.restaurants.subscribe(
-                (restaurant) => this.restaurants = restaurant
+                (restaurant) => {
+                    this.checkRestaurants(restaurant, this.collectionRestaurantService.currentRestaurantIds);
+                    this.restaurants = restaurant;
+                }
             ),
-            this.collectionRestaurantService.currentRestaurantIds.subscribe(
-                (ids) => this.restaurants.forEach((rest) => rest.isExist = ids.indexOf(rest.id) !== -1)
+            this.collectionRestaurantService.currentRestaurantIdsSub.subscribe(
+                (ids) => this.checkRestaurants(this.restaurants, ids)
             )
         );
     }
@@ -49,5 +52,9 @@ export class RestaurantListComponent extends AutoUnsubscribe implements OnInit {
                     this.collectionRestaurantService.addCollectionRestaurantSub.next(res);
                 }
             )
+    }
+
+    private checkRestaurants(restaurants: Restaurant[], ids: number[]){
+        restaurants.forEach((rest) => rest.isExist = ids.indexOf(rest.id) !== -1)
     }
 }

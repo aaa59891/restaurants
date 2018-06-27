@@ -14,11 +14,9 @@ export class RestaurantService {
 
     getRestaurants(datetime: Date) {
         const datetimeStr = moment(datetime).format('YYYY-MM-DD HH:mm:ss');
-        console.log(datetimeStr);
         this.http.get(environment.url + `restaurants?datetime=${datetimeStr}`)
             .subscribe(
                 (data: Restaurant[]) => {
-                    console.log(data);
                     this.restaurants.next(data);
                 }
             )

@@ -1,0 +1,29 @@
+<div>
+    <ng-container *ngIf="!isEdit">
+        {{restaurant.name}} 
+        <ng-container *ngIf="restaurant.name !== restaurant.restaurant.name">
+            ({{restaurant.restaurant.name}})
+        </ng-container>
+        <div class="float-right">
+            <i class="fa fa-edit pointer mr-2" (click)="isEdit = true"></i>
+            <i class="fa fa-minus pointer"></i>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="isEdit">
+        <div class="row">
+            <div class="col-9">
+                <input type="text" name="name" class="form-control" [(ngModel)]="newName">
+            </div>
+            <div class="col-3 pr-0">
+                <div class="float-right">
+                    <button class="btn btn-light" (click)="onUpdateName()">
+                        <i class="fa fa-save pointer"></i>
+                    </button>
+                    <button class="btn btn-light" (click)="isEdit = false">
+                        <i class="fa fa-times-circle pointer"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
