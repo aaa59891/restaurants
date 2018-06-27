@@ -1,5 +1,10 @@
 <label for="collection">Collection: </label>
-<select name="collection" id="collection" class="form-control">
+<select name="collection" id="collection" class="form-control" (change)="onChangeCollection($event.target.value)">
     <option value=""></option>
     <option *ngFor="let col of collections" [value]="col.id">{{ col.name }}</option>
 </select>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let restaurant of collectionRestaurants">
+        {{restaurant.name}}
+    </li>
+</ul>

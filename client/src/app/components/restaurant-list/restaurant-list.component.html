@@ -1,7 +1,12 @@
 <div *ngIf="restaurants">
     <ul class="list-group">
         <li class="list-group-item" *ngFor="let rest of restaurants">
-            {{ rest.name }}
+            <div>
+                {{ rest.name }}
+                <div class="float-right">
+                    <i *ngIf="!rest.isExist" class="fa fa-angle-right pointer" (click)="onAddToCollection(rest)"></i>
+                </div>
+            </div>
         </li>
     </ul>
 </div>

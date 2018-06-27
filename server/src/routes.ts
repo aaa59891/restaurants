@@ -49,7 +49,7 @@ export function setRoutes(app: Application){
         controller: crController.addCollRestaurant.bind(crController)
     },{
         method: HttpMethod.GET,
-        route: "/collection_restaurant/:id", 
+        route: "/collection_restaurant_list/:id", 
         controller: crController.getCollRestaurants.bind(crController)
     },{
         method: HttpMethod.DELETE,

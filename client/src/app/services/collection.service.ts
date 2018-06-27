@@ -13,10 +13,12 @@ enum CollectionErr{
 })
 export class CollectionService {
     collectionAddSub = new Subject<Collection>();
+    currentCollectionId: number;
     constructor(
         private http: HttpClient,
         private authService: AuthService
-    ) {}
+    ) {
+    }
 
     addCollection(col: Collection){
         this.http.post(environment.url + 'collection', col)
