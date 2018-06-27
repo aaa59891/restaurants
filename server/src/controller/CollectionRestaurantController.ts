@@ -10,7 +10,7 @@ export class CollectionRestaurantController extends AbstractController{
 
     async addCollRestaurant(req: Request, res: Response, next: NextFunction){
         try {
-            const result = await this.crService.create(req.body);
+            const result = await this.crService.save(req.body);
             res.send(result);
         } catch (error) {
             console.error(error);

@@ -11,5 +11,5 @@ html, body{
     cursor: pointer;
 }
 .form-inline>*{
-    padding-right: 5px;
+    margin-right: 5px;
 }

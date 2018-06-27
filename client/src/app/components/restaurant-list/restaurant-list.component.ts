@@ -49,6 +49,7 @@ export class RestaurantListComponent extends AutoUnsubscribe implements OnInit {
             .subscribe(
                 (res: CollectionRestaurant) => {
                     restaurant.isExist = true;
+                    console.log(res);
                     this.collectionRestaurantService.addCollectionRestaurantSub.next(res);
                 }
             )

@@ -11,7 +11,7 @@ export class CollcetionController extends AbstractController{
 
     async addCollection(req: Request, res: Response, next: NextFunction){
         try {
-            const result = await this.collectionService.create(req.body);
+            const result = await this.collectionService.save(req.body);
             res.send(result);
         } catch (error) {
             console.error(error);

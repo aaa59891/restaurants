@@ -11,6 +11,7 @@ export class CollectionRestaurantService {
     addCollectionRestaurantSub = new Subject<CollectionRestaurant>();
     currentRestaurantIdsSub = new Subject<number[]>();
     currentRestaurantIds: number[] = [];
+    deleteRestaurantSub = new Subject<number>();
     constructor(private http: HttpClient) {
         this.currentRestaurantIdsSub.subscribe((ids) => this.currentRestaurantIds = ids);
     }
@@ -25,5 +26,9 @@ export class CollectionRestaurantService {
 
     updateCollectionRestaurant(collectionRestaurant: CollectionRestaurant){
         return this.http.put(environment.url + 'collection_restaurant', collectionRestaurant);
+    }
+
+    deleteCollectionRestaurant(restaurantId: number){
+        return this.http.delete(environment.url + `collection_restaurant/${restaurantId}`);
     }
 }

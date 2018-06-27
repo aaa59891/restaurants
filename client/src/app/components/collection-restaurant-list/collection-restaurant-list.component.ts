@@ -30,6 +30,12 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
             ),
             this.collectionRestaurantService.addCollectionRestaurantSub.subscribe(
                 (restaurant) => this.collectionRestaurants.push(restaurant)
+            ),
+            this.collectionRestaurantService.deleteRestaurantSub.subscribe(
+                (id) => {
+                    this.collectionRestaurants = this.collectionRestaurants.filter((res) => res.id !== id);
+                    this.sendCurrentRestaurantIds();
+                }
             )
         )
         this.collectionService.getCollection().subscribe(
@@ -48,11 +54,15 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
         this.collectionRestaurantService.getCollectionRestaurants(id)
             .subscribe(
                 (res: CollectionRestaurant[]) =>{
-                    this.collectionRestaurantService.currentRestaurantIdsSub.next(
-                        res.map((res) => res.restaurant.id)
-                    );
                     this.collectionRestaurants = res;
+                    this.sendCurrentRestaurantIds();
                 } 
             )
+    }
+
+    private sendCurrentRestaurantIds(){
+        this.collectionRestaurantService.currentRestaurantIdsSub.next(
+            this.collectionRestaurants.map((res) => res.restaurant.id)
+        );
     }
 }

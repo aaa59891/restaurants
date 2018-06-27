@@ -14,7 +14,7 @@ createConnection().then(async _ => {
     const totalCount = await restaurantService.getTotalCount();
     if(totalCount === 0){
         new InitRestaurant(join(__dirname, 'init/hours.csv')).readRestaurants((restaurant) => {
-            restaurantService.create(restaurant);
+            restaurantService.save(restaurant);
         });
     }
     const app = express();

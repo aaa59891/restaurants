@@ -1,12 +1,18 @@
 <div>
     <ng-container *ngIf="!isEdit">
-        {{restaurant.name}} 
-        <ng-container *ngIf="restaurant.name !== restaurant.restaurant.name">
-            ({{restaurant.restaurant.name}})
-        </ng-container>
-        <div class="float-right">
-            <i class="fa fa-edit pointer mr-2" (click)="isEdit = true"></i>
-            <i class="fa fa-minus pointer"></i>
+        <div class="row">
+            <div class="col-9">
+                {{restaurant.name}} 
+                <ng-container *ngIf="restaurant.name !== restaurant.restaurant.name">
+                    ({{restaurant.restaurant.name}})
+                </ng-container>
+            </div>
+            <div class="col-3">
+                <div class="float-right">
+                    <i class="fa fa-edit pointer mr-2" (click)="isEdit = true"></i>
+                    <i class="fa fa-minus pointer" (click)="onDelete()" ></i>
+                </div>
+            </div>
         </div>
     </ng-container>
     <ng-container *ngIf="isEdit">

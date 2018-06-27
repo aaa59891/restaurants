@@ -32,4 +32,13 @@ export class CollectionRestaurantItemComponent implements OnInit {
                 }
             )
     }
+
+    onDelete(){
+        this.collectionResaurantService.deleteCollectionRestaurant(this.restaurant.id)
+            .subscribe(
+                (_) => {
+                    this.collectionResaurantService.deleteRestaurantSub.next(this.restaurant.id);
+                }
+            )
+    }
 }
