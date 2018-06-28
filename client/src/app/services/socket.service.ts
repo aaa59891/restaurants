@@ -1,9 +1,7 @@
 import { Injectable, NgZone } from "@angular/core";
 import * as socketIo from "socket.io-client";
 import { environment } from "../../environments/environment";
-import { AuthService } from "./auth.service";
 import { CollectionRestaurant } from "../models/collectionRestaurant";
-import { CollectionRestaurantService } from "./collection-restaurant.service";
 import { Subject } from "rxjs";
 import { Collection } from "../models/collection";
 
@@ -25,7 +23,6 @@ export class SocketService {
     ) {
         this.io = socketIo(environment.socketUrl);
         this.io.on("connect", () => {
-            console.log("check 2", this.io.connected);
         });
     }
 
@@ -63,7 +60,6 @@ export class SocketService {
     private onUpdateCollectionRestaurantName(){
         this.io.on(`${this.userId}_updateCOllectionRestaurantName`, (newRest: CollectionRestaurant) => {
             this.zone.run(() => {
-                console.log(newRest);
                 this.updateCollectionRestaurantNameSub.next(newRest);
             });
         })

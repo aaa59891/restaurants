@@ -29,7 +29,8 @@ const defaultConfig: Config = {
 }
 
 const prodConfig: Config = {
-    ...defaultConfig
+    ...defaultConfig,
+    url: 'http://localhost:3000',
 }
 
 export const config: Config = process.env.NODE_ENV === 'prod'? prodConfig: defaultConfig;

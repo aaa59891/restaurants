@@ -1,11 +1,10 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { DestroyHelper } from "../../shared/destroyHelper";
 import { RestaurantService } from "../../services/restaurant.service";
 import { Restaurant } from "../../models/restaurant";
 import { CollectionService } from "../../services/collection.service";
 import { CollectionRestaurant } from "../../models/collectionRestaurant";
 import { CollectionRestaurantService } from "../../services/collection-restaurant.service";
-import { AuthService } from "../../services/auth.service";
 import { SocketService } from "../../services/socket.service";
 
 @Component({

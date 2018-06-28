@@ -2,7 +2,7 @@
     <div class="col-7">
         <form class="form-inline">
             <label for="collection">Collection: </label>
-            <select [(ngModel)]="collectionId" name="collection" id="collection" class="form-control" (change)="onChangeCollection($event.target.value)">
+            <select [(ngModel)]="collectionId" name="collection" id="collection" class="form-control" (change)="onChangeCollection()">
                 <option value=""></option>
                 <option *ngFor="let col of collections" [ngValue]="col.id">{{ col.name }}</option>
             </select>

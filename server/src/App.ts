@@ -35,11 +35,19 @@ export class App{
             this.http = require('http').Server(this.app);
 
             this.initSocket();
-
-            this.app.use(require('cors')({origin: '*'}));
+            if(process.env.NODE_ENV === 'dev'){
+                this.app.use(require('cors')({origin: '*'}));
+            }
             this.app.use(bodyParser.json());
             // register express routes from defined application routes
             setRoutes(this.app);
+
+            if(process.env.NODE_ENV === 'prod'){
+                this.app.use(express.static(join(__dirname, 'dist/client')));
+                this.app.get('/*', (req, res, next) => {
+                    res.sendFile(join(__dirname, 'dist/client/index.html'));
+                });
+            }
 
             // start express server
             this.http.listen(3000, () => {
@@ -58,9 +66,7 @@ export class App{
     private initSocket(){
         App.io = socket(this.http);
         App.io.on('connect', (socket) => {
-            console.log('user connect');
             socket.on('disconnect', function(){
-                console.log('user disconnected');
             });
         })
     }

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { User } from "../models/user";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { tap } from 'rxjs/operators';
 import { SocketService } from "./socket.service";

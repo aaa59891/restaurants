@@ -24,7 +24,8 @@ export class CollectionRestaurantService {
         });
 
         this.socketService.deleteCollectionRestaurantSub.subscribe((id) => {
-            this.collectionRestaurants = this.collectionRestaurants.filter((rest) => rest.id !== id)
+            this.collectionRestaurants = this.collectionRestaurants.filter((rest) => rest.id !== id);
+            this.sendNewRestaurantIds();
         });
 
         this.socketService.updateCollectionRestaurantNameSub.subscribe((newRest) => {

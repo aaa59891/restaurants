@@ -33,10 +33,10 @@ export class LoginComponent extends DestroyHelper implements OnInit {
                     this.loginSignupSuccess(res);
                 },
                 (err: HttpErrorResponse) => {
-                    console.log(err);
+                    console.error(err);
                     switch(err.error){
                         case LoginError.EmailNotExist:
-                            alert('This email does not exist, please sign up it first.');
+                            alert('This email does not exist, please sign up first.');
                             break;
                         case LoginError.WrongPassword:
                             alert('Password is incorrect!');
@@ -56,7 +56,7 @@ export class LoginComponent extends DestroyHelper implements OnInit {
                     this.loginSignupSuccess(res);
                 },
                 (err: HttpErrorResponse) => {
-                    console.log(err.error);
+                    console.error(err.error);
                     switch(err.error){
                         case SignupError.EmailExists:
                             alert(err.error);

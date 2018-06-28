@@ -86,7 +86,9 @@ export class CollectionRestaurantListComponent extends DestroyHelper implements 
 
     onUpdateCollectionName(){
         $('body').css({cursor: 'progress'});
-        const collection = {id: this.collectionId, name: this.newName} as Collection;
+        const collection = new Collection()
+        collection.id = this.collectionId;
+        collection.name = this.newName;
         this.collectionService.updateCollectionName(collection).subscribe((_) => {
             $('body').css({cursor: 'auto'});
             $('#nameModal').modal('hide');

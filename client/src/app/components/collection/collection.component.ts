@@ -4,8 +4,6 @@ import { AuthService } from "../../services/auth.service";
 import { CollectionService, CollectionErr } from "../../services/collection.service";
 import { Collection } from "../../models/collection";
 import { HttpErrorResponse } from "@angular/common/http";
-import { SocketService } from "../../services/socket.service";
-import { currentId } from "async_hooks";
 
 @Component({
     selector: "app-collection",
@@ -34,7 +32,7 @@ export class CollectionComponent extends DestroyHelper implements OnInit {
                     this.name = '';
                 },
                 (err: HttpErrorResponse) => {
-                    console.log(err.error);
+                    console.error(err.error);
                     switch(err.error){
                         case CollectionErr.NameDuplicate:
                             alert(err.error);
