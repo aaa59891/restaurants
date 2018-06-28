@@ -9,15 +9,15 @@ import * as moment from 'moment';
     providedIn: "root"
 })
 export class RestaurantService {
-    restaurants = new Subject<Restaurant[]>();
+    restaurantsSub = new Subject<Restaurant[]>();
     constructor(private http: HttpClient) {}
 
     getRestaurants(datetime: Date) {
         const datetimeStr = moment(datetime).format('YYYY-MM-DD HH:mm:ss');
-        this.http.get(environment.url + `restaurants?datetime=${datetimeStr}`)
+        this.http.get(environment.apiUrl + `restaurants?datetime=${datetimeStr}`)
             .subscribe(
                 (data: Restaurant[]) => {
-                    this.restaurants.next(data);
+                    this.restaurantsSub.next(data);
                 }
             )
     }

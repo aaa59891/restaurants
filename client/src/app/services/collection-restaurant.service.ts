@@ -10,25 +10,47 @@ import { Subject } from "rxjs";
 export class CollectionRestaurantService {
     addCollectionRestaurantSub = new Subject<CollectionRestaurant>();
     currentRestaurantIdsSub = new Subject<number[]>();
-    currentRestaurantIds: number[] = [];
     deleteRestaurantSub = new Subject<number>();
-    constructor(private http: HttpClient) {
-        this.currentRestaurantIdsSub.subscribe((ids) => this.currentRestaurantIds = ids);
-    }
+    currentCollectionId: number;
+    collectionRestaurants: CollectionRestaurant[] = [];
 
+    constructor(private http: HttpClient) {
+        this.addCollectionRestaurantSub.subscribe((rest) => {
+            if(rest.collection.id === this.currentCollectionId){
+                this.collectionRestaurants.push(rest);
+            }
+        })
+    }
+    
     getCollectionRestaurants(collectionId: number) {
-        return this.http.get(environment.url + `collection_restaurant_list/${collectionId}`);
+        if(!collectionId){
+            this.currentCollectionId = 0;
+            this.collectionRestaurants = [];
+            this.sendNewRestaurantIds();
+            return;
+        }
+        this.http.get(environment.apiUrl + `collection_restaurant_list/${collectionId}`)
+            .subscribe((res: CollectionRestaurant[]) => {
+                this.currentCollectionId = collectionId;
+                this.collectionRestaurants = res
+                this.sendNewRestaurantIds();
+            });
     }
 
     addCollectionRestaurant(collectionRestaurant: CollectionRestaurant){
-        return this.http.post(environment.url + 'collection_restaurant', collectionRestaurant);
+        this.http.post(environment.apiUrl + 'collection_restaurant', collectionRestaurant)
+            .subscribe()
     }
 
     updateCollectionRestaurant(collectionRestaurant: CollectionRestaurant){
-        return this.http.put(environment.url + 'collection_restaurant', collectionRestaurant);
+        return this.http.put(environment.apiUrl + 'collection_restaurant', collectionRestaurant);
     }
 
     deleteCollectionRestaurant(restaurantId: number){
-        return this.http.delete(environment.url + `collection_restaurant/${restaurantId}`);
+        return this.http.delete(environment.apiUrl + `collection_restaurant/${restaurantId}`);
+    }
+
+    private sendNewRestaurantIds(){
+        this.currentRestaurantIdsSub.next(this.collectionRestaurants.map((res) => res.restaurant.id));
     }
 }

@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { User } from "../models/user";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { environment } from "../../environments/environment";
-import { Subject } from "rxjs";
-
+import { tap } from 'rxjs/operators';
+import { SocketService } from "./socket.service";
 export enum LoginError{
     EmailNotExist = 'The email does not exist.',
     WrongPassword = 'Password is incorrect!'
@@ -19,14 +19,38 @@ export enum SignupError{
 export class AuthService {
     email: string;
     userId: number;
-    constructor(private http: HttpClient) {
-    }
+    token: string;
+    constructor(
+        private http: HttpClient,
+        private socketService: SocketService
+    ) {}
 
     login(user: User){
-        return this.http.post(environment.url + 'signin', user)
+        return this.http.post(environment.apiUrl + 'signin', user)
+            .pipe(
+                tap(res => {
+                    this.token = res['token'];
+                    this.email = res['email'];
+                    this.userId = res['id'];
+                    this.initAllSocket();
+                })
+            )
     }
 
     signup(user: User){
-        return this.http.post(environment.url + 'signup', user);
+        return this.http.post(environment.apiUrl + 'signup', user)
+            .pipe(
+                tap(res => {
+                    this.token = res['token'];
+                    this.email = res['email'];
+                    this.userId = res['id'];
+                    this.initAllSocket();
+                })
+            )
+    }
+
+    initAllSocket(){
+        this.socketService.resetAllEvent();
+        this.socketService.initSocketListen(this.userId);
     }
 }

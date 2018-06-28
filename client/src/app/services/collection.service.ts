@@ -21,7 +21,7 @@ export class CollectionService {
     }
 
     addCollection(col: Collection){
-        this.http.post(environment.url + 'collection', col)
+        this.http.post(environment.apiUrl + 'collection', col)
             .subscribe(
                 (res) => {
                     this.collectionAddSub.next(res as Collection);
@@ -41,11 +41,11 @@ export class CollectionService {
     }
 
     getCollection(){
-        return this.http.get(environment.url + `collection/${this.authService.userId}`);
+        return this.http.get(environment.apiUrl + `collection/${this.authService.userId}`);
     }
 
     shareWithFriend(email: string){
         const payload = {email, userId: this.authService.userId};
-        return this.http.post(environment.url + 'mailToFriend', payload);
+        return this.http.post(environment.apiUrl + 'mailToFriend', payload);
     }
 }

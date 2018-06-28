@@ -28,7 +28,9 @@ export class CollaborateGuard implements CanActivate {
             this.router.navigate(['/login']);
             return false;
         }
+        this.authService.token = token;
         this.authService.userId = userId;
+        this.authService.initAllSocket();
         return true;
     }
 }

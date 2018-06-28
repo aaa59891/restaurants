@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { CollectionRestaurant } from "../../models/collectionRestaurant";
 import { CollectionRestaurantService } from "../../services/collection-restaurant.service";
-import { socket } from "../../shared/socket";
 
 @Component({
     selector: "app-collection-restaurant-item",
@@ -15,7 +14,6 @@ export class CollectionRestaurantItemComponent implements OnInit {
     constructor(private collectionResaurantService: CollectionRestaurantService) {}
 
     ngOnInit() {
-        console.log(socket);
         this.newName = this.restaurant.name;
     }
 

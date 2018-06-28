@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { CollectionService } from "../../services/collection.service";
 import { Collection } from "../../models/collection";
-import { AutoUnsubscribe } from "../../shared/autoUnsubscribe";
+import { DestroyHelper } from "../../shared/destroyHelper";
 import { CollectionRestaurantService } from "../../services/collection-restaurant.service";
 import { CollectionRestaurant } from "../../models/collectionRestaurant";
 import { NgForm } from "@angular/forms";
@@ -12,14 +12,13 @@ declare let $: any;
     templateUrl: "./collection-restaurant-list.component.html",
     styleUrls: ["./collection-restaurant-list.component.css"]
 })
-export class CollectionRestaurantListComponent extends AutoUnsubscribe implements OnInit {
+export class CollectionRestaurantListComponent extends DestroyHelper implements OnInit {
     protected subscriptions = [];
     collections: Collection[] = [];
-    collectionRestaurants: CollectionRestaurant[] = [];
     @ViewChild('emailForm') emailForm: NgForm;
     constructor(
         private collectionService: CollectionService,
-        private collectionRestaurantService: CollectionRestaurantService
+        public collectionRestaurantService: CollectionRestaurantService
     ) {
         super();
     }
@@ -30,15 +29,6 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
                 (col) => {
                     this.collections.push(col);
                 }
-            ),
-            this.collectionRestaurantService.addCollectionRestaurantSub.subscribe(
-                (restaurant) => this.collectionRestaurants.push(restaurant)
-            ),
-            this.collectionRestaurantService.deleteRestaurantSub.subscribe(
-                (id) => {
-                    this.collectionRestaurants = this.collectionRestaurants.filter((res) => res.id !== id);
-                    this.sendCurrentRestaurantIds();
-                }
             )
         )
         this.collectionService.getCollection().subscribe(
@@ -47,26 +37,16 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
     }
 
     onChangeCollection(collectionId: string){
-        if(!collectionId){
-            this.collectionRestaurants = [];
-            this.collectionRestaurantService.currentRestaurantIdsSub.next([]);
-            return;
-        }
         const id = parseInt(collectionId);
         this.collectionService.currentCollectionId =  id;
-        this.collectionRestaurantService.getCollectionRestaurants(id)
-            .subscribe(
-                (res: CollectionRestaurant[]) =>{
-                    this.collectionRestaurants = res;
-                    this.sendCurrentRestaurantIds();
-                } 
-            )
+        this.collectionRestaurantService.getCollectionRestaurants(id);
     }
 
     onOpenModal(){
         $('#emailModal').modal('show');
     }
-    onSend(){
+
+    onShareWithFriend(){
         $('body').css({cursor: 'progress'});
         this.collectionService.shareWithFriend(this.emailForm.value['email'])
             .subscribe(
@@ -76,11 +56,5 @@ export class CollectionRestaurantListComponent extends AutoUnsubscribe implement
                     $('#emailModal').modal('hide');
                 }
             )
-    }
-
-    private sendCurrentRestaurantIds(){
-        this.collectionRestaurantService.currentRestaurantIdsSub.next(
-            this.collectionRestaurants.map((res) => res.restaurant.id)
-        );
     }
 }

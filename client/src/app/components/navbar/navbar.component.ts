@@ -1,7 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
 import { AuthService } from "../../services/auth.service";
-import { AutoUnsubscribe } from "../../shared/autoUnsubscribe";
 import { Router } from "@angular/router";
 
 @Component({

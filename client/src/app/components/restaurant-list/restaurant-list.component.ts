@@ -1,37 +1,54 @@
-import { Component, OnInit } from "@angular/core";
-import { AutoUnsubscribe } from "../../shared/autoUnsubscribe";
+import { Component, OnInit, NgZone } from "@angular/core";
+import { DestroyHelper } from "../../shared/destroyHelper";
 import { RestaurantService } from "../../services/restaurant.service";
 import { Restaurant } from "../../models/restaurant";
 import { CollectionService } from "../../services/collection.service";
 import { CollectionRestaurant } from "../../models/collectionRestaurant";
 import { CollectionRestaurantService } from "../../services/collection-restaurant.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     selector: "app-restaurant-list",
     templateUrl: "./restaurant-list.component.html",
     styleUrls: ["./restaurant-list.component.css"]
 })
-export class RestaurantListComponent extends AutoUnsubscribe implements OnInit {
+export class RestaurantListComponent extends DestroyHelper implements OnInit {
     protected subscriptions = [];
     restaurants: Restaurant[] = [];
     constructor(
-        private restaurantService: RestaurantService,
+        public restaurantService: RestaurantService,
         private collectionService: CollectionService,
-        private collectionRestaurantService: CollectionRestaurantService
+        private collectionRestaurantService: CollectionRestaurantService,
     ) {
         super();
     }
 
     ngOnInit() {
         this.subscriptions.push(
-            this.restaurantService.restaurants.subscribe(
-                (restaurant) => {
-                    this.checkRestaurants(restaurant, this.collectionRestaurantService.currentRestaurantIds);
-                    this.restaurants = restaurant;
+            this.restaurantService.restaurantsSub.subscribe(
+                (restaurants) => {
+                    const ids = this.collectionRestaurantService.collectionRestaurants.map((res) => res.restaurant.id);
+                    this.checkRestaurants(restaurants, ids);
+                    this.restaurants = restaurants;
                 }
             ),
             this.collectionRestaurantService.currentRestaurantIdsSub.subscribe(
-                (ids) => this.checkRestaurants(this.restaurants, ids)
+                (ids) => {
+                    this.checkRestaurants(this.restaurants, ids)
+                }
+            ),
+            this.collectionRestaurantService.addCollectionRestaurantSub.subscribe(
+                (data) => {
+                    if(data.collection.id !== this.collectionService.currentCollectionId){
+                        return;
+                    }
+                    this.restaurants.forEach((rest) => {
+                        if(rest.id === data.restaurant.id){
+                            rest.isExist = true;
+                            return;
+                        }
+                    })
+                }
             )
         );
     }
@@ -45,14 +62,7 @@ export class RestaurantListComponent extends AutoUnsubscribe implements OnInit {
         collectionRestaurant.restaurant = {...restaurant};
         collectionRestaurant.name = restaurant.name;
         collectionRestaurant.collection = {id: this.collectionService.currentCollectionId};
-        this.collectionRestaurantService.addCollectionRestaurant(collectionRestaurant)
-            .subscribe(
-                (res: CollectionRestaurant) => {
-                    restaurant.isExist = true;
-                    console.log(res);
-                    this.collectionRestaurantService.addCollectionRestaurantSub.next(res);
-                }
-            )
+        this.collectionRestaurantService.addCollectionRestaurant(collectionRestaurant);
     }
 
     private checkRestaurants(restaurants: Restaurant[], ids: number[]){

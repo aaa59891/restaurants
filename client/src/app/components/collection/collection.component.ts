@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AutoUnsubscribe } from "../../shared/autoUnsubscribe";
+import { DestroyHelper } from "../../shared/destroyHelper";
 import { AuthService } from "../../services/auth.service";
 import { CollectionService } from "../../services/collection.service";
 import { Collection } from "../../models/collection";
@@ -9,7 +9,7 @@ import { Collection } from "../../models/collection";
     templateUrl: "./collection.component.html",
     styleUrls: ["./collection.component.css"]
 })
-export class CollectionComponent extends AutoUnsubscribe implements OnInit {
+export class CollectionComponent extends DestroyHelper implements OnInit {
     protected subscriptions = [];
     name: string;
     constructor(

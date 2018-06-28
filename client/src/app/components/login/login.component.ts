@@ -4,14 +4,14 @@ import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { User } from "../../models/user";
 import { Router } from "@angular/router";
-import { AutoUnsubscribe } from "../../shared/autoUnsubscribe";
+import { DestroyHelper } from "../../shared/destroyHelper";
 
 @Component({
     selector: "app-login",
     templateUrl: "./login.component.html",
     styleUrls: ["./login.component.css"]
 })
-export class LoginComponent extends AutoUnsubscribe implements OnInit {
+export class LoginComponent extends DestroyHelper implements OnInit {
     protected subscriptions = [];
     constructor(
         private authService: AuthService,
@@ -24,15 +24,19 @@ export class LoginComponent extends AutoUnsubscribe implements OnInit {
         if(this.authService.email){
             this.router.navigate(['/']);
         }
+        this.authService.login({email: 'chong@email.com', password: '1qaz2wsx'})
+            .subscribe((res: User) => this.loginSignupSuccess(res));
     }
 
     onLogin(){
+        console.log(this.form.value);
         this.authService.login(this.form.value)
             .subscribe(
                 (res: User) => {
                     this.loginSignupSuccess(res);
                 },
                 (err: HttpErrorResponse) => {
+                    console.log(err);
                     switch(err.error){
                         case LoginError.EmailNotExist:
                             alert('This email does not exist, please sign up it first.');
@@ -69,8 +73,6 @@ export class LoginComponent extends AutoUnsubscribe implements OnInit {
     }
 
     private loginSignupSuccess(user: User){
-        this.authService.email = user.email;
-        this.authService.userId = user.id;
         this.router.navigate(['/']);
     }
 }
