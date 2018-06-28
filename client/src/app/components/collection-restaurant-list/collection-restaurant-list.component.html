@@ -8,7 +8,7 @@
             </select>
         </form>
     </div>
-    <div class="col-3">
+    <div class="col-3" *ngIf="authService.email">
         <button class="btn btn-primary" type="button" (click)="onOpenModal()">Share</button>
     </div>
 </div>
@@ -21,7 +21,7 @@
 </ul>
 
 <!-- The Modal -->
-<div class="modal" id="emailModal">
+<div *ngIf="authService.email" class="modal" id="emailModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->

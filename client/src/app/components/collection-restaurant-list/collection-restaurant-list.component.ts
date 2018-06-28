@@ -3,8 +3,8 @@ import { CollectionService } from "../../services/collection.service";
 import { Collection } from "../../models/collection";
 import { DestroyHelper } from "../../shared/destroyHelper";
 import { CollectionRestaurantService } from "../../services/collection-restaurant.service";
-import { CollectionRestaurant } from "../../models/collectionRestaurant";
 import { NgForm } from "@angular/forms";
+import { AuthService } from "../../services/auth.service";
 declare let $: any;
 
 @Component({
@@ -17,6 +17,7 @@ export class CollectionRestaurantListComponent extends DestroyHelper implements 
     collections: Collection[] = [];
     @ViewChild('emailForm') emailForm: NgForm;
     constructor(
+        public authService: AuthService,
         private collectionService: CollectionService,
         public collectionRestaurantService: CollectionRestaurantService
     ) {
