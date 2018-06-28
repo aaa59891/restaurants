@@ -14,6 +14,7 @@ This README would normally document whatever steps are necessary to get your app
 >>You can find configuration file at /restaurant/server/src/conf/config.ts  
 >>defaultConfig can be used for development, prodConfig is used for production.  
 >>There is a test email account for this repo, you can just use or change it to your email account.  
+>>Remember to set the url which is this application's url, that will appear in the email you send to your friends.  
 
 >Client:
 >>Client configurations are set in /restaurant/client/src/environments  
@@ -25,10 +26,34 @@ This README would normally document whatever steps are necessary to get your app
 
 
 ### How do I run this repo? ###
-
->After setting all configurations, we can use start.sh to start this application.  
->Back to this repo's root directory
+>Production:
 ```
 $ chmod +x start.sh
 $ ./start.sh
+```
+>>Server only:
+```
+$ cd restaurant
+$ NODE_ENV=prod npm start
+```
+>>Client only:
+```
+$ cd client
+$ npm run build
+$ cp -r dist ../server/src
+```
+>Development:
+>>Remember to set the client's configuration  
+>>
+>>Run two servers(angular & express)
+>>
+>>Angular:
+```
+$ cd client
+$ npm start
+```
+>>Express:
+```
+$ cd server
+$ NODE_ENV=dev npm start
 ```
