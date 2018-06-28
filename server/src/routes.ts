@@ -10,6 +10,7 @@ import { RestaurantController } from "./controller/RestaurantController";
 import { RestaurantService } from "./services/RestaurantService";
 import { MailController } from "./controller/MailController";
 import { MailService } from "./services/MailService";
+import { App } from "./App";
 
 enum HttpMethod{
     POST = 'post',
@@ -19,7 +20,6 @@ enum HttpMethod{
 }
 
 export function setRoutes(app: Application){
-
     const userController = new UserController(ServiceProvider.getService(UserService));
     const collectionController = new CollcetionController(ServiceProvider.getService(CollectionService));
     const crController = new CollectionRestaurantController(ServiceProvider.getService(CollectionRestaurantService));
