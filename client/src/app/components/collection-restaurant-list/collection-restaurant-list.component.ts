@@ -69,6 +69,7 @@ export class CollectionRestaurantListComponent extends DestroyHelper implements 
         this.collectionService.shareWithFriend(this.emailForm.value['email'])
             .subscribe(_ => {
                     alert('Sent email successfully.');
+                    this.emailForm.reset();
                     $('body').css({cursor: 'auto'});
                     $('#emailModal').modal('hide');
             })
@@ -90,6 +91,7 @@ export class CollectionRestaurantListComponent extends DestroyHelper implements 
         collection.id = this.collectionId;
         collection.name = this.newName;
         this.collectionService.updateCollectionName(collection).subscribe((_) => {
+            this.newName = '';
             $('body').css({cursor: 'auto'});
             $('#nameModal').modal('hide');
         });
