@@ -24,11 +24,11 @@ export class CollectionRestaurantItemComponent implements OnInit {
         }
         const restTemp = {...this.restaurant};
         restTemp.name = this.newName;
+        restTemp.collection = {id:this.collectionResaurantService.currentCollectionId};
         this.collectionResaurantService.updateCollectionRestaurant(restTemp)
             .subscribe(
                 (_) => {
                     this.isEdit = false;
-                    this.restaurant.name = this.newName;
                 }
             )
     }

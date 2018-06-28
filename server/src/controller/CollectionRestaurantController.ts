@@ -60,7 +60,9 @@ export class CollectionRestaurantController extends AbstractController{
 
     async updateCr(req: Request, res: Response, next: NextFunction){
         try {
+            const userId = res.locals.userId;
             const result = await this.crService.updateCollectionRestaurantName(req.body);
+            SocketHelper.emit(userId, EmitEvents.UpdateCollectionRestaurantName, req.body);
             res.send(result);
         } catch (error) {
             console.error(error);

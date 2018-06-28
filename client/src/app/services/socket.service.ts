@@ -13,6 +13,7 @@ export class SocketService {
     io: SocketIOClient.Socket;
     deleteCollectionRestaurantSub = new Subject<number>();
     addCollectionRestaurantSub = new Subject<CollectionRestaurant>();
+    updateCollectionRestaurantNameSub = new Subject<CollectionRestaurant>();
     private userId: number;
     constructor(
         private zone: NgZone
@@ -27,6 +28,7 @@ export class SocketService {
         this.userId = userId;
         this.onAddCollectionRestaurant();
         this.onDeleteCollectionRestaurant();
+        this.onUpdateCollectionRestaurantName();
     }
 
     resetAllEvent(){
@@ -49,5 +51,14 @@ export class SocketService {
                 this.deleteCollectionRestaurantSub.next(id);
             });
         });
+    }
+
+    private onUpdateCollectionRestaurantName(){
+        this.io.on(`${this.userId}_updateCOllectionRestaurantName`, (newRest: CollectionRestaurant) => {
+            this.zone.run(() => {
+                console.log(newRest);
+                this.updateCollectionRestaurantNameSub.next(newRest);
+            });
+        })
     }
 }

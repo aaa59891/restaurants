@@ -22,9 +22,22 @@ export class CollectionRestaurantService {
                 this.collectionRestaurants.push(rest);
             }
         });
+
         this.socketService.deleteCollectionRestaurantSub.subscribe((id) => {
             this.collectionRestaurants = this.collectionRestaurants.filter((rest) => rest.id !== id)
         });
+
+        this.socketService.updateCollectionRestaurantNameSub.subscribe((newRest) => {
+            if(newRest.collection.id !== this.currentCollectionId){
+                return;
+            }
+            this.collectionRestaurants.forEach((rest) => {
+                if(rest.id === newRest.id){
+                    rest.name = newRest.name;
+                    return;
+                }
+            })
+        })
     }
     
     getCollectionRestaurants(collectionId: number) {

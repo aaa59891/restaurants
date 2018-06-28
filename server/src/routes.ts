@@ -35,7 +35,6 @@ export function setRoutes(app: Application){
     app.get(prefix + "/collection/:id", collectionController.getCollection.bind(collectionController)) // TODO JWT lat);
     app.delete(prefix + "/collection/:id", collectionController.deleteCollection.bind(collectionController));
     
-    app.put(prefix + "/collection_restaurant", crController.updateCr.bind(crController));
     app.get(prefix + "/collection_restaurant_list/:id", crController.getCollRestaurants.bind(crController));
     
     app.get(prefix + "/restaurants", restaurantController.getRestaurants.bind(restaurantController));
@@ -45,4 +44,5 @@ export function setRoutes(app: Application){
     app.use(AuthorizationMiddleware.checkJwt);
     app.post(prefix + "/collection_restaurant", crController.addCollRestaurant.bind(crController));
     app.delete(prefix + "/collection_restaurant/:id", crController.deleteCr.bind(crController));
+    app.put(prefix + "/collection_restaurant", crController.updateCr.bind(crController));
 }
