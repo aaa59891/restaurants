@@ -29,7 +29,6 @@ export class LoginComponent extends DestroyHelper implements OnInit {
     }
 
     onLogin(){
-        console.log(this.form.value);
         this.authService.login(this.form.value)
             .subscribe(
                 (res: User) => {

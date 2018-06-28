@@ -32,7 +32,8 @@ export class CollcetionController extends AbstractController{
 
     async getCollection(req: Request, res: Response, next: NextFunction){
         try {
-            const result = await this.collectionService.getCollectionByUserId(this.getNumberParameter(req, 'id'));
+            const userId = res.locals.userId;
+            const result = await this.collectionService.getCollectionByUserId(userId);
             res.send(result);
         } catch (error) {
             console.error(error);

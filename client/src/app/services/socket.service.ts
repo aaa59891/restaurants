@@ -40,7 +40,6 @@ export class SocketService {
     
     private onAddCollectionRestaurant(){
         const addCollectionRestaurantEvent = `${this.userId}_addCollectionRestaurant`;
-        console.log(addCollectionRestaurantEvent);
         this.io.on(addCollectionRestaurantEvent, (data: CollectionRestaurant) => {
             this.zone.run(() => {
                 this.addCollectionRestaurantSub.next(data);

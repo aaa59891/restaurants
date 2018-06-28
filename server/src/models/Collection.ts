@@ -7,7 +7,7 @@ export class Collection{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({length: 100, unique: true})
+    @Column({length: 100})
     name: string;
 
     @ManyToOne(type => User, user => user.collections)

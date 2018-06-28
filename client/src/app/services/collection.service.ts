@@ -23,7 +23,7 @@ export class CollectionService {
     }
 
     getCollection(){
-        return this.http.get(environment.apiUrl + `collection/${this.authService.userId}`);
+        return this.http.get(environment.apiUrl + 'collection');
     }
 
     shareWithFriend(email: string){
