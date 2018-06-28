@@ -1,4 +1,3 @@
-import {Secret} from 'jsonwebtoken'
 interface Config{
     bcrypt: {salt: number}
     email:{
@@ -8,7 +7,7 @@ interface Config{
     },
     url: string,
     jwt:{
-        secret: Secret,
+        secret: string | Buffer,
         expiresIn: number | string
     }
 }
