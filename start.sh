@@ -1,7 +1,7 @@
 #!/bin/bash
 cd client
 echo "Building angular..."
-ng build --prod
+npm run build
 cp -r dist ../server/src
 cd ../server
 cd server
