@@ -11,6 +11,7 @@ import { RestaurantService } from "./services/RestaurantService";
 import { MailController } from "./controller/MailController";
 import { MailService } from "./services/MailService";
 import { App } from "./App";
+import { AuthorizationMiddleware } from "./middlewares/AuthorizationMiddleware";
 
 enum HttpMethod{
     POST = 'post',
@@ -25,54 +26,23 @@ export function setRoutes(app: Application){
     const crController = new CollectionRestaurantController(ServiceProvider.getService(CollectionRestaurantService));
     const restaurantController = new RestaurantController(ServiceProvider.getService(RestaurantService));
     const mailController = new MailController(ServiceProvider.getService(MailService));
+    const prefix = '/api';
 
-    const routes = [{
-        method: HttpMethod.POST,
-        route: "/signup",
-        controller: userController.signUp.bind(userController)
-    },{
-        method: HttpMethod.POST,
-        route: "/signin",
-        controller: userController.signIn.bind(userController)
-    },{
-        method: HttpMethod.POST,
-        route: "/collection",
-        controller: collectionController.addCollection.bind(collectionController)
-    },{
-        method: HttpMethod.GET,
-        route: "/collection/:id", // TODO JWT later
-        controller: collectionController.getCollection.bind(collectionController)
-    },{
-        method: HttpMethod.DELETE,
-        route: "/collection/:id", 
-        controller: collectionController.deleteCollection.bind(collectionController)
-    },{
-        method: HttpMethod.POST,
-        route: "/collection_restaurant", 
-        controller: crController.addCollRestaurant.bind(crController)
-    },{
-        method: HttpMethod.GET,
-        route: "/collection_restaurant_list/:id", 
-        controller: crController.getCollRestaurants.bind(crController)
-    },{
-        method: HttpMethod.DELETE,
-        route: "/collection_restaurant/:id", 
-        controller: crController.deleteCr.bind(crController)
-    },{
-        method: HttpMethod.PUT,
-        route: "/collection_restaurant", 
-        controller: crController.updateCr.bind(crController)
-    },{
-        method: HttpMethod.GET,
-        route: "/restaurants", 
-        controller: restaurantController.getRestaurants.bind(restaurantController)
-    },{
-        method: HttpMethod.POST,
-        route: "/mailToFriend", 
-        controller: mailController.sendEmailToFriend.bind(mailController)
-    }];
-
-    for(let route of routes){
-        app[route.method]('/api' + route.route, route.controller);
-    }
+    app.post(prefix + "/signup", userController.signUp.bind(userController))
+    app.post(prefix + "/signin", userController.signIn.bind(userController))
+    
+    app.post(prefix + "/collection", collectionController.addCollection.bind(collectionController))
+    app.get(prefix + "/collection/:id", collectionController.getCollection.bind(collectionController)) // TODO JWT lat)
+    app.delete(prefix + "/collection/:id", collectionController.deleteCollection.bind(collectionController))
+    
+    app.delete(prefix + "/collection_restaurant/:id", crController.deleteCr.bind(crController))
+    app.put(prefix + "/collection_restaurant", crController.updateCr.bind(crController))
+    app.get(prefix + "/collection_restaurant_list/:id", crController.getCollRestaurants.bind(crController))
+    
+    app.get(prefix + "/restaurants", restaurantController.getRestaurants.bind(restaurantController))
+    
+    app.post(prefix + "/mailToFriend", mailController.sendEmailToFriend.bind(mailController))
+    
+    app.use(AuthorizationMiddleware.checkJwt)
+    app.post(prefix + "/collection_restaurant", crController.addCollRestaurant.bind(crController))
 }

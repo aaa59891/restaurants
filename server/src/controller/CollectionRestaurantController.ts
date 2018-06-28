@@ -2,6 +2,7 @@ import { AbstractController } from "./AbstractController";
 import { CollectionRestaurantService } from "../services/CollectionRestaurantService";
 import { Request, Response, NextFunction } from "express";
 import { Errors } from "../shared/Error";
+import { SocketHelper, EmitEvents } from "../shared/SocketHelper";
 
 export class CollectionRestaurantController extends AbstractController{
     constructor(private crService: CollectionRestaurantService){
@@ -10,7 +11,9 @@ export class CollectionRestaurantController extends AbstractController{
 
     async addCollRestaurant(req: Request, res: Response, next: NextFunction){
         try {
+            const userId = res.locals.userId;
             const result = await this.crService.save(req.body);
+            SocketHelper.emit(userId, EmitEvents.AddCollectionRestaurant, result);
             res.send(result);
         } catch (error) {
             console.error(error);
@@ -54,7 +57,7 @@ export class CollectionRestaurantController extends AbstractController{
 
     async updateCr(req: Request, res: Response, next: NextFunction){
         try {
-            const result = await this.crService.updateCollectionRestaurantName(req.body)
+            const result = await this.crService.updateCollectionRestaurantName(req.body);
             res.send(result);
         } catch (error) {
             console.error(error);
