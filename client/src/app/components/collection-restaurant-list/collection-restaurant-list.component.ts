@@ -5,6 +5,7 @@ import { DestroyHelper } from "../../shared/destroyHelper";
 import { CollectionRestaurantService } from "../../services/collection-restaurant.service";
 import { NgForm } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
+import { SocketService } from "../../services/socket.service";
 declare let $: any;
 
 @Component({
@@ -18,15 +19,16 @@ export class CollectionRestaurantListComponent extends DestroyHelper implements 
     @ViewChild('emailForm') emailForm: NgForm;
     constructor(
         public authService: AuthService,
-        private collectionService: CollectionService,
-        public collectionRestaurantService: CollectionRestaurantService
+        public collectionRestaurantService: CollectionRestaurantService,
+        private socketService: SocketService,
+        private collectionService: CollectionService
     ) {
         super();
     }
 
     ngOnInit() {
         this.subscriptions.push(
-            this.collectionService.collectionAddSub.subscribe(
+            this.socketService.addCollectionSub.subscribe(
                 (col) => {
                     this.collections.push(col);
                 }

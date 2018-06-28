@@ -5,6 +5,7 @@ import { AuthService } from "./auth.service";
 import { CollectionRestaurant } from "../models/collectionRestaurant";
 import { CollectionRestaurantService } from "./collection-restaurant.service";
 import { Subject } from "rxjs";
+import { Collection } from "../models/collection";
 
 @Injectable({
     providedIn: "root"
@@ -14,6 +15,7 @@ export class SocketService {
     deleteCollectionRestaurantSub = new Subject<number>();
     addCollectionRestaurantSub = new Subject<CollectionRestaurant>();
     updateCollectionRestaurantNameSub = new Subject<CollectionRestaurant>();
+    addCollectionSub = new Subject<Collection>();
     private userId: number;
     constructor(
         private zone: NgZone
@@ -29,6 +31,7 @@ export class SocketService {
         this.onAddCollectionRestaurant();
         this.onDeleteCollectionRestaurant();
         this.onUpdateCollectionRestaurantName();
+        this.onAddCollection();
     }
 
     resetAllEvent(){
@@ -58,6 +61,14 @@ export class SocketService {
             this.zone.run(() => {
                 console.log(newRest);
                 this.updateCollectionRestaurantNameSub.next(newRest);
+            });
+        })
+    }
+
+    private onAddCollection(){
+        this.io.on(`${this.userId}_addCollection`, (collection: Collection) => {
+            this.zone.run(() => {
+                this.addCollectionSub.next(collection);
             });
         })
     }

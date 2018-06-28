@@ -10,5 +10,6 @@ export class SocketHelper{
 export enum EmitEvents{
     AddCollectionRestaurant = 'addCollectionRestaurant',
     DeleteCollectionRestaurant = 'deleteCollectionRestaurant',
-    UpdateCollectionRestaurantName = 'updateCOllectionRestaurantName'
+    UpdateCollectionRestaurantName = 'updateCOllectionRestaurantName',
+    AddCollection = 'addCollection'
 }

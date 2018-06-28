@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { AbstractController } from "./AbstractController";
 import { Errors } from "../shared/Error";
 import { QueryFailedError } from "typeorm";
+import { SocketHelper, EmitEvents } from "../shared/SocketHelper";
 
 export class CollcetionController extends AbstractController{
     constructor(private collectionService: CollectionService){
@@ -11,7 +12,9 @@ export class CollcetionController extends AbstractController{
 
     async addCollection(req: Request, res: Response, next: NextFunction){
         try {
+            const userId = res.locals.userId;
             const result = await this.collectionService.save(req.body);
+            SocketHelper.emit(userId, EmitEvents.AddCollection, result);
             res.send(result);
         } catch (error) {
             console.error(error);

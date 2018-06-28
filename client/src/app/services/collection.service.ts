@@ -5,39 +5,21 @@ import { AuthService } from "./auth.service";
 import { environment } from "../../environments/environment";
 import { Subject } from "rxjs";
 
-enum CollectionErr{
+export enum CollectionErr{
     NameDuplicate = 'This name is duplicate'
 }
 @Injectable({
     providedIn: "root"
 })
 export class CollectionService {
-    collectionAddSub = new Subject<Collection>();
     currentCollectionId: number;
     constructor(
         private http: HttpClient,
         private authService: AuthService
-    ) {
-    }
+    ) {}
 
     addCollection(col: Collection){
-        this.http.post(environment.apiUrl + 'collection', col)
-            .subscribe(
-                (res) => {
-                    this.collectionAddSub.next(res as Collection);
-                },
-                (err: HttpErrorResponse) => {
-                    console.log(err.error);
-                    switch(err.error){
-                        case CollectionErr.NameDuplicate:
-                            alert(err.error);
-                        break;
-                        default:
-                            alert('Server error.');
-                            break;
-                    }
-                }
-            )
+        return this.http.post(environment.apiUrl + 'collection', col);
     }
 
     getCollection(){

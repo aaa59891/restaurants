@@ -31,7 +31,6 @@ export function setRoutes(app: Application){
     app.post(prefix + "/signup", userController.signUp.bind(userController));
     app.post(prefix + "/signin", userController.signIn.bind(userController));
     
-    app.post(prefix + "/collection", collectionController.addCollection.bind(collectionController));
     app.get(prefix + "/collection/:id", collectionController.getCollection.bind(collectionController)) // TODO JWT lat);
     app.delete(prefix + "/collection/:id", collectionController.deleteCollection.bind(collectionController));
     
@@ -45,4 +44,6 @@ export function setRoutes(app: Application){
     app.post(prefix + "/collection_restaurant", crController.addCollRestaurant.bind(crController));
     app.delete(prefix + "/collection_restaurant/:id", crController.deleteCr.bind(crController));
     app.put(prefix + "/collection_restaurant", crController.updateCr.bind(crController));
+    app.post(prefix + "/collection", collectionController.addCollection.bind(collectionController));
+
 }
