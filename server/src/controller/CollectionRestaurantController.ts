@@ -40,7 +40,10 @@ export class CollectionRestaurantController extends AbstractController{
 
     async deleteCr(req: Request, res: Response, next: NextFunction){
         try {
-            await this.crService.deleteById(this.getNumberParameter(req, 'id'))
+            const userId = res.locals.userId;
+            const id = this.getNumberParameter(req, 'id');
+            await this.crService.deleteById(id);
+            SocketHelper.emit(userId, EmitEvents.DeleteCollectionRestaurant, id);
             res.send();
         } catch (error) {
             console.error(error);

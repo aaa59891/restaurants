@@ -6,6 +6,7 @@ import { CollectionService } from "../../services/collection.service";
 import { CollectionRestaurant } from "../../models/collectionRestaurant";
 import { CollectionRestaurantService } from "../../services/collection-restaurant.service";
 import { AuthService } from "../../services/auth.service";
+import { SocketService } from "../../services/socket.service";
 
 @Component({
     selector: "app-restaurant-list",
@@ -19,6 +20,7 @@ export class RestaurantListComponent extends DestroyHelper implements OnInit {
         public restaurantService: RestaurantService,
         private collectionService: CollectionService,
         private collectionRestaurantService: CollectionRestaurantService,
+        private socketService: SocketService
     ) {
         super();
     }
@@ -37,7 +39,7 @@ export class RestaurantListComponent extends DestroyHelper implements OnInit {
                     this.checkRestaurants(this.restaurants, ids)
                 }
             ),
-            this.collectionRestaurantService.addCollectionRestaurantSub.subscribe(
+            this.socketService.addCollectionRestaurantSub.subscribe(
                 (data) => {
                     if(data.collection.id !== this.collectionService.currentCollectionId){
                         return;

@@ -3,23 +3,28 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { CollectionRestaurant } from "../models/collectionRestaurant";
 import { Subject } from "rxjs";
+import { SocketService } from "./socket.service";
 
 @Injectable({
     providedIn: "root"
 })
 export class CollectionRestaurantService {
-    addCollectionRestaurantSub = new Subject<CollectionRestaurant>();
     currentRestaurantIdsSub = new Subject<number[]>();
-    deleteRestaurantSub = new Subject<number>();
     currentCollectionId: number;
     collectionRestaurants: CollectionRestaurant[] = [];
 
-    constructor(private http: HttpClient) {
-        this.addCollectionRestaurantSub.subscribe((rest) => {
+    constructor(
+        private http: HttpClient,
+        private socketService: SocketService
+    ) {
+        this.socketService.addCollectionRestaurantSub.subscribe((rest) => {
             if(rest.collection.id === this.currentCollectionId){
                 this.collectionRestaurants.push(rest);
             }
-        })
+        });
+        this.socketService.deleteCollectionRestaurantSub.subscribe((id) => {
+            this.collectionRestaurants = this.collectionRestaurants.filter((rest) => rest.id !== id)
+        });
     }
     
     getCollectionRestaurants(collectionId: number) {

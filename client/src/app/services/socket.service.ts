@@ -4,15 +4,17 @@ import { environment } from "../../environments/environment";
 import { AuthService } from "./auth.service";
 import { CollectionRestaurant } from "../models/collectionRestaurant";
 import { CollectionRestaurantService } from "./collection-restaurant.service";
+import { Subject } from "rxjs";
 
 @Injectable({
     providedIn: "root"
 })
 export class SocketService {
     io: SocketIOClient.Socket;
+    deleteCollectionRestaurantSub = new Subject<number>();
+    addCollectionRestaurantSub = new Subject<CollectionRestaurant>();
     private userId: number;
     constructor(
-        private collectionRestaurantService: CollectionRestaurantService,
         private zone: NgZone
     ) {
         this.io = socketIo(environment.socketUrl);
@@ -24,6 +26,7 @@ export class SocketService {
     initSocketListen(userId: number){
         this.userId = userId;
         this.onAddCollectionRestaurant();
+        this.onDeleteCollectionRestaurant();
     }
 
     resetAllEvent(){
@@ -35,9 +38,16 @@ export class SocketService {
         console.log(addCollectionRestaurantEvent);
         this.io.on(addCollectionRestaurantEvent, (data: CollectionRestaurant) => {
             this.zone.run(() => {
-                this.collectionRestaurantService.addCollectionRestaurantSub.next(data);
+                this.addCollectionRestaurantSub.next(data);
             })
         });
-        
+    }
+
+    private onDeleteCollectionRestaurant(){
+        this.io.on(`${this.userId}_deleteCollectionRestaurant`, (id) => {
+            this.zone.run(() => {
+                this.deleteCollectionRestaurantSub.next(id);
+            });
+        });
     }
 }
