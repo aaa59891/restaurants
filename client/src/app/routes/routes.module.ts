@@ -3,11 +3,12 @@ import { RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "../components/home/home.component";
 import { LoginComponent } from "../components/login/login.component";
 import { CollaborateGuard } from "../guards/collaborate.guard";
+import { SecureGuard } from "../guards/secure.guard";
 
 
 const routes: Routes = [
-    {path: '', component: HomeComponent},
     {path: 'login', component: LoginComponent},
+    {path: '', component: HomeComponent, canActivate: [SecureGuard]},
     {path: 'collaborate', component: HomeComponent, canActivate: [CollaborateGuard]}
 ]
 

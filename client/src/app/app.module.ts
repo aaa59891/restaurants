@@ -16,6 +16,7 @@ import { DpDatePickerModule } from "ng2-date-picker";
 import { CollectionRestaurantItemComponent } from "./components/collection-restaurant-item/collection-restaurant-item.component";
 import { AuthInterceptor } from "./interceptors/AuthInterceptor";
 import { CollaborateGuard } from "./guards/collaborate.guard";
+import { SecureGuard } from "./guards/secure.guard";
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { CollaborateGuard } from "./guards/collaborate.guard";
             useClass: AuthInterceptor,
             multi: true
         },
-        CollaborateGuard
+        CollaborateGuard,
+        SecureGuard
     ],
     bootstrap: [AppComponent]
 })

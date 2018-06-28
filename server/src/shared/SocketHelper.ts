@@ -11,5 +11,7 @@ export enum EmitEvents{
     AddCollectionRestaurant = 'addCollectionRestaurant',
     DeleteCollectionRestaurant = 'deleteCollectionRestaurant',
     UpdateCollectionRestaurantName = 'updateCOllectionRestaurantName',
-    AddCollection = 'addCollection'
+    AddCollection = 'addCollection',
+    DeleteCollection = 'deleteCollection',
+    UpdateCollectionName = 'upateCollectionName'
 }

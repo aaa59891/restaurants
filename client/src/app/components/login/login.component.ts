@@ -24,8 +24,6 @@ export class LoginComponent extends DestroyHelper implements OnInit {
         if(this.authService.email){
             this.router.navigate(['/']);
         }
-        this.authService.login({email: 'chong@email.com', password: '1qaz2wsx'})
-            .subscribe((res: User) => this.loginSignupSuccess(res));
     }
 
     onLogin(){

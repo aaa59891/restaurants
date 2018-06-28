@@ -1,15 +1,17 @@
 <div class="row">
-    <div class="col-9">
+    <div class="col-7">
         <form class="form-inline">
             <label for="collection">Collection: </label>
-            <select name="collection" id="collection" class="form-control" (change)="onChangeCollection($event.target.value)">
+            <select [(ngModel)]="collectionId" name="collection" id="collection" class="form-control" (change)="onChangeCollection($event.target.value)">
                 <option value=""></option>
-                <option *ngFor="let col of collections" [value]="col.id">{{ col.name }}</option>
+                <option *ngFor="let col of collections" [ngValue]="col.id">{{ col.name }}</option>
             </select>
         </form>
     </div>
-    <div class="col-3" *ngIf="authService.email">
-        <button class="btn btn-primary" type="button" (click)="onOpenModal()">Share</button>
+    <div class="col-5" >
+        <button class="btn btn-primary mr-1" [disabled]="!collectionId" (click)="onOpenNameModal()"><i class="fa fa-edit"></i></button>
+        <button class="btn btn-danger mr-1" (click)="onDeleteCollection()" [disabled]="!collectionId"><i class="fa fa-minus"></i></button>
+        <button *ngIf="authService.email" class="btn btn-primary" type="button" (click)="onOpenEmailModal()">Share</button>
     </div>
 </div>
 
@@ -20,26 +22,42 @@
     </li>
 </ul>
 
-<!-- The Modal -->
 <div *ngIf="authService.email" class="modal" id="emailModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Send to Friend</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form #emailForm="ngForm">
-                        <input type="email" name="email" ngModel class="form-control" placeholder="Friend's email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-                    </form>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" (click)="onShareWithFriend()" [disabled]="emailForm.invalid">Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Send to Friend</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form #emailForm="ngForm">
+                    <input type="email" name="email" ngModel class="form-control" placeholder="Friend's email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onShareWithFriend()" [disabled]="emailForm.invalid">Send</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
+<div *ngIf="authService.email" class="modal" id="nameModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Change Collection Name:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="text" name="text" [(ngModel)]="newName" class="form-control" placeholder="New name">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onUpdateCollectionName()" [disabled]="!newName">Send</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

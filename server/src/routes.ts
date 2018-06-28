@@ -31,7 +31,6 @@ export function setRoutes(app: Application){
     app.post(prefix + "/signup", userController.signUp.bind(userController));
     app.post(prefix + "/signin", userController.signIn.bind(userController));
     
-    app.delete(prefix + "/collection/:id", collectionController.deleteCollection.bind(collectionController));
     
     app.get(prefix + "/collection_restaurant_list/:id", crController.getCollRestaurants.bind(crController));
     
@@ -39,13 +38,17 @@ export function setRoutes(app: Application){
     
     app.post(prefix + "/mailToFriend", mailController.sendEmailToFriend.bind(mailController));
     
+
     app.use(AuthorizationMiddleware.checkJwt);
-
-    app.post(prefix + "/collection", collectionController.addCollection.bind(collectionController));
-    app.get(prefix + "/collection", collectionController.getCollection.bind(collectionController))
-
-    app.post(prefix + "/collection_restaurant", crController.addCollRestaurant.bind(crController));
-    app.delete(prefix + "/collection_restaurant/:id", crController.deleteCr.bind(crController));
-    app.put(prefix + "/collection_restaurant", crController.updateCr.bind(crController));
+    {
+        app.post(prefix + "/collection", collectionController.addCollection.bind(collectionController));
+        app.get(prefix + "/collection", collectionController.getCollection.bind(collectionController))
+        app.delete(prefix + "/collection/:id", collectionController.deleteCollection.bind(collectionController));
+        app.put(prefix + '/collection', collectionController.updateName.bind(collectionController));
+    
+        app.post(prefix + "/collection_restaurant", crController.addCollRestaurant.bind(crController));
+        app.delete(prefix + "/collection_restaurant/:id", crController.deleteCr.bind(crController));
+        app.put(prefix + "/collection_restaurant", crController.updateCr.bind(crController));
+    }
 
 }

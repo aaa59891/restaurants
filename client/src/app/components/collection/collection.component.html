@@ -3,5 +3,5 @@
         Name: 
     </label>
     <input type="text" id="name" name="name" class="form-control" [(ngModel)]="name" >
-    <button class="btn btn-primary"><i class="fa fa-plus"></i></button>
+    <button class="btn btn-primary" [disabled]="!name"><i class="fa fa-plus"></i></button>
 </form>

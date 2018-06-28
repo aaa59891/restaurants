@@ -16,6 +16,9 @@ declare let $: any;
 export class CollectionRestaurantListComponent extends DestroyHelper implements OnInit {
     protected subscriptions = [];
     collections: Collection[] = [];
+    collectionId: number;
+    newName: string;
+
     @ViewChild('emailForm') emailForm: NgForm;
     constructor(
         public authService: AuthService,
@@ -28,36 +31,65 @@ export class CollectionRestaurantListComponent extends DestroyHelper implements 
 
     ngOnInit() {
         this.subscriptions.push(
-            this.socketService.addCollectionSub.subscribe(
-                (col) => {
-                    this.collections.push(col);
+            this.socketService.addCollectionSub.subscribe((col) => {
+                this.collections.push(col);
+            }),
+            this.socketService.deleteCollectionSub.subscribe((id) => {
+                this.collections = this.collections.filter((col) => col.id !== id);
+                if(id === this.collectionId){
+                    this.collectionId = 0;
+                    this.onChangeCollection();
                 }
-            )
+            }),
+            this.socketService.updateCollectionNameSub.subscribe((collection) => {
+                this.collections.forEach((col) => {
+                    if(col.id === collection.id){
+                        col.name = collection.name;
+                        return;
+                    }
+                })
+            })
         )
         this.collectionService.getCollection().subscribe(
             (data: Collection[]) => this.collections = data
         );
     }
 
-    onChangeCollection(collectionId: string){
-        const id = parseInt(collectionId);
-        this.collectionService.currentCollectionId =  id;
-        this.collectionRestaurantService.getCollectionRestaurants(id);
+    onChangeCollection(){
+        this.collectionService.currentCollectionId =  this.collectionId;
+        this.collectionRestaurantService.getCollectionRestaurants(this.collectionId);
     }
 
-    onOpenModal(){
+    onOpenEmailModal(){
         $('#emailModal').modal('show');
     }
 
     onShareWithFriend(){
         $('body').css({cursor: 'progress'});
         this.collectionService.shareWithFriend(this.emailForm.value['email'])
-            .subscribe(
-                res => {
+            .subscribe(_ => {
                     alert('Sent email successfully.');
                     $('body').css({cursor: 'auto'});
                     $('#emailModal').modal('hide');
-                }
-            )
+            })
+    }
+
+    onDeleteCollection(){
+        if(confirm('Do you really want to delete this collection? ')){
+            this.collectionService.deleteCollection(this.collectionId).subscribe();
+        }
+    }
+
+    onOpenNameModal(){
+        $('#nameModal').modal('show');
+    }
+
+    onUpdateCollectionName(){
+        $('body').css({cursor: 'progress'});
+        const collection = {id: this.collectionId, name: this.newName} as Collection;
+        this.collectionService.updateCollectionName(collection).subscribe((_) => {
+            $('body').css({cursor: 'auto'});
+            $('#nameModal').modal('hide');
+        });
     }
 }

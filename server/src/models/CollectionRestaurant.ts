@@ -13,6 +13,6 @@ export class CollectionRestaurant{
     @ManyToOne(type => Restaurant)
     restaurant: Restaurant;
 
-    @ManyToOne(type => Collection, collection => collection.collectionRestaurants)
+    @ManyToOne(type => Collection, collection => collection.collectionRestaurants, {onDelete: 'CASCADE'})
     collection: Collection;
 }

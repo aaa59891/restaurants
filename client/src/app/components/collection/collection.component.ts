@@ -4,6 +4,8 @@ import { AuthService } from "../../services/auth.service";
 import { CollectionService, CollectionErr } from "../../services/collection.service";
 import { Collection } from "../../models/collection";
 import { HttpErrorResponse } from "@angular/common/http";
+import { SocketService } from "../../services/socket.service";
+import { currentId } from "async_hooks";
 
 @Component({
     selector: "app-collection",
@@ -20,8 +22,7 @@ export class CollectionComponent extends DestroyHelper implements OnInit {
         super();
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     onAddCollection(){
         const col = new Collection();
@@ -29,7 +30,9 @@ export class CollectionComponent extends DestroyHelper implements OnInit {
         col.user = {id: this.authService.userId};
         this.colService.addCollection(col)
             .subscribe(
-                (_) => {},
+                (_) => {
+                    this.name = '';
+                },
                 (err: HttpErrorResponse) => {
                     console.log(err.error);
                     switch(err.error){

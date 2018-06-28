@@ -1,11 +1,11 @@
 <form class="form-signin" (ngSubmit)="onLogin()" #form="ngForm">
     <h1 class="h3 mb-3 text-center">Please login or sign up</h1>
     <div class="form-group">
-        <input type="email" id="inputEmail" name="email" class="form-control" ngModel placeholder="Email address" autofocus="">
-        <input type="password" id="inputPassword" name="password" class="form-control" ngModel placeholder="Password">
+        <input type="email" id="inputEmail" name="email" class="form-control" ngModel placeholder="Email address" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" autofocus="" required>
+        <input type="password" id="inputPassword" name="password" class="form-control" ngModel placeholder="Password" required>
     </div>
     <div class="form-group text-center">
-        <button class="btn btn-lg btn-light mr-1" type="button" (click)="onSignup()">Sign up</button>
-        <button class="btn btn-lg btn-primary ml-1" type="submit">Login</button>
+        <button class="btn btn-lg btn-light mr-1" [disabled]="form.invalid" type="button" (click)="onSignup()">Sign up</button>
+        <button class="btn btn-lg btn-primary ml-1" [disabled]="form.invalid" type="submit">Login</button>
     </div>
 </form>

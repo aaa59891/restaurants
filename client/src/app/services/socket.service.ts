@@ -16,6 +16,9 @@ export class SocketService {
     addCollectionRestaurantSub = new Subject<CollectionRestaurant>();
     updateCollectionRestaurantNameSub = new Subject<CollectionRestaurant>();
     addCollectionSub = new Subject<Collection>();
+    deleteCollectionSub = new Subject<number>();
+    updateCollectionNameSub = new Subject<Collection>();
+
     private userId: number;
     constructor(
         private zone: NgZone
@@ -32,6 +35,8 @@ export class SocketService {
         this.onDeleteCollectionRestaurant();
         this.onUpdateCollectionRestaurantName();
         this.onAddCollection();
+        this.onDeleteCollection();
+        this.onUpdateCollectionName();
     }
 
     resetAllEvent(){
@@ -69,6 +74,22 @@ export class SocketService {
             this.zone.run(() => {
                 this.addCollectionSub.next(collection);
             });
+        })
+    }
+
+    private onDeleteCollection(){
+        this.io.on(`${this.userId}_deleteCollection`, (id) => {
+            this.zone.run(() => {
+                this.deleteCollectionSub.next(id);
+            })
+        })
+    }
+
+    private onUpdateCollectionName(){
+        this.io.on(`${this.userId}_upateCollectionName`, (collection: Collection) => {
+            this.zone.run(() => {
+                this.updateCollectionNameSub.next(collection);
+            })
         })
     }
 }

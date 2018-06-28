@@ -13,6 +13,6 @@ export class Collection{
     @ManyToOne(type => User, user => user.collections)
     user: User;
 
-    @OneToMany(type => CollectionRestaurant, cr => cr.collection)
+    @OneToMany(type => CollectionRestaurant, cr => cr.collection, {onDelete: 'CASCADE'})
     collectionRestaurants: CollectionRestaurant[];
 }

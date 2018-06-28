@@ -30,4 +30,12 @@ export class CollectionService {
         const payload = {email, userId: this.authService.userId};
         return this.http.post(environment.apiUrl + 'mailToFriend', payload);
     }
+
+    deleteCollection(id: number){
+        return this.http.delete(environment.apiUrl + `collection/${id}`);
+    }
+
+    updateCollectionName(collection: Collection){
+        return this.http.put(environment.apiUrl + 'collection', collection);
+    }
 }

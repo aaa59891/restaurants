@@ -48,9 +48,24 @@ export class CollcetionController extends AbstractController{
         }
     }
 
+    async updateName(req: Request, res: Response, next: NextFunction){
+        try {
+            const userId = res.locals.userId;
+            await this.collectionService.updateCollectionName(req.body);
+            SocketHelper.emit(userId, EmitEvents.UpdateCollectionName, req.body);
+            res.send(req.body);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send();
+        }
+    }
+
     async deleteCollection(req: Request, res: Response, next: NextFunction){
         try {
-            await this.collectionService.deleteById(this.getNumberParameter(req, 'id'));
+            const userId = res.locals.userId;
+            const id = this.getNumberParameter(req, 'id');
+            await this.collectionService.deleteById(id);
+            SocketHelper.emit(userId, EmitEvents.DeleteCollection, id);
             res.send();
         } catch (error) {
             console.error(error);
