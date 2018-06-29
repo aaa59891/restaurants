@@ -30,10 +30,9 @@ export class AuthService {
     login(user: User){
         return this.http.post(environment.apiUrl + 'signin', user)
             .pipe(
-                tap(res => {
-                    this.token = res['token'];
-                    this.email = res['email'];
-                    this.userId = res['id'];
+                tap( (res: User) => {
+                    this.setUser(res);
+                    this.storeCurrentUser(res);
                     this.initAllSocket();
                 })
             )
@@ -42,10 +41,9 @@ export class AuthService {
     signup(user: User){
         return this.http.post(environment.apiUrl + 'signup', user)
             .pipe(
-                tap(res => {
-                    this.token = res['token'];
-                    this.email = res['email'];
-                    this.userId = res['id'];
+                tap( (res:User) => {
+                    this.setUser(res)
+                    this.storeCurrentUser(res);
                     this.initAllSocket();
                 })
             )
@@ -55,11 +53,38 @@ export class AuthService {
         this.email = '';
         this.userId = 0;
         this.token = '';
+        localStorage.removeItem('user');
+        this.socketService.resetAllEvent();
         this.router.navigate(['/login']);
+    }
+
+    getCurrentUser(){
+        const userStr = localStorage.getItem('user');
+        if(!userStr){
+            return null;
+        }
+        try {
+            const user: User = JSON.parse(userStr);
+            this.setUser(user);
+            return user;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    setUser(user: User){
+        this.userId = user.id;
+        this.email = user.email;
+        this.token = user.token;
     }
 
     initAllSocket(){
         this.socketService.resetAllEvent();
         this.socketService.initSocketListen(this.userId);
+    }
+
+    private storeCurrentUser(user: User){
+        const temp = {...user, password: null};
+        localStorage.setItem('user', JSON.stringify(temp));
     }
 }

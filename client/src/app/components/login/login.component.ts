@@ -21,7 +21,7 @@ export class LoginComponent extends DestroyHelper implements OnInit {
     }
     @ViewChild('form') form: NgForm;
     ngOnInit() {
-        if(this.authService.email){
+        if(this.authService.getCurrentUser()){
             this.router.navigate(['/']);
         }
     }
