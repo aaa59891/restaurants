@@ -10,7 +10,7 @@ export class MailController{
         try {
             const {email, userId} = req.body;
             if(!email){
-                res.status(401).send('Email is empty.');
+                res.status(400).send('Email is empty.');
                 return;
             }
             const url = await this.mailService.sendMailToEmail(email, userId);

@@ -17,6 +17,8 @@ import { CollectionRestaurantItemComponent } from "./components/collection-resta
 import { AuthInterceptor } from "./interceptors/AuthInterceptor";
 import { CollaborateGuard } from "./guards/collaborate.guard";
 import { SecureGuard } from "./guards/secure.guard";
+import { ErrorInterceptor } from "./interceptors/ErrorInterceptor";
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +30,8 @@ import { SecureGuard } from "./guards/secure.guard";
         CollectionRestaurantListComponent,
         HomeComponent,
         LoginComponent,
-        CollectionRestaurantItemComponent
+        CollectionRestaurantItemComponent,
+        PageNotFoundComponent
     ],
     imports: [
         BrowserModule,
@@ -41,6 +44,11 @@ import { SecureGuard } from "./guards/secure.guard";
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorInterceptor,
             multi: true
         },
         CollaborateGuard,

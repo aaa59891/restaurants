@@ -29,7 +29,7 @@ export class CollectionRestaurantController extends AbstractController{
             console.error(error);
             switch (error) {
                 case Errors.InvalidParam:
-                    res.status(401).send(error);
+                    res.status(400).send(error);
                     break;
                 default:
                     res.status(500).send();
@@ -49,7 +49,7 @@ export class CollectionRestaurantController extends AbstractController{
             console.error(error);
             switch (error) {
                 case Errors.InvalidParam:
-                    res.status(401).send(error);
+                    res.status(400).send(error);
                     break;
                 default:
                     res.status(500).send();

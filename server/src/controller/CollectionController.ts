@@ -23,7 +23,7 @@ export class CollcetionController extends AbstractController{
                 &&
                 (<QueryFailedError>error).message.indexOf('Duplicate') !== -1
             ){
-                res.status(401).send('This name is duplicate');
+                res.status(400).send('This name is duplicate');
                 return;
             }
             res.status(500).send();
@@ -39,7 +39,7 @@ export class CollcetionController extends AbstractController{
             console.error(error);
             switch (error) {
                 case Errors.InvalidParam:
-                    res.status(401).send(error);
+                    res.status(400).send(error);
                     break;
                 default:
                     res.status(500).send();
@@ -71,7 +71,7 @@ export class CollcetionController extends AbstractController{
             console.error(error);
             switch (error) {
                 case Errors.InvalidParam:
-                    res.status(401).send(error);
+                    res.status(400).send(error);
                     break;
                 default:
                     res.status(500).send();

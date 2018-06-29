@@ -13,7 +13,7 @@ export class UserController {
             console.error(error);
             switch (error) {
                 case UserErrors.EmailExist:
-                    res.status(401).send(error);
+                    res.status(400).send(error);
                     break;
                 default:
                     res.status(500).send();
@@ -31,7 +31,7 @@ export class UserController {
             switch(error){
                 case UserErrors.UserNotFound:
                 case UserErrors.WrongPassword:
-                    res.status(401).send(error);
+                    res.status(400).send(error);
                     break;
                 default:
                     res.status(500).send();

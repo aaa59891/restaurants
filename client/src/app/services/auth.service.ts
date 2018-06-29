@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { tap } from 'rxjs/operators';
 import { SocketService } from "./socket.service";
+import { Router } from "@angular/router";
 export enum LoginError{
     EmailNotExist = 'The email does not exist.',
     WrongPassword = 'Password is incorrect!'
@@ -22,7 +23,8 @@ export class AuthService {
     token: string;
     constructor(
         private http: HttpClient,
-        private socketService: SocketService
+        private socketService: SocketService,
+        private router: Router
     ) {}
 
     login(user: User){
@@ -47,6 +49,13 @@ export class AuthService {
                     this.initAllSocket();
                 })
             )
+    }
+
+    logout(){
+        this.email = '';
+        this.userId = 0;
+        this.token = '';
+        this.router.navigate(['/login']);
     }
 
     initAllSocket(){

@@ -13,8 +13,8 @@ This README would normally document whatever steps are necessary to get your app
 >Server:
 >>You can find configuration file at /restaurant/server/src/conf/config.ts  
 >>defaultConfig can be used for development, prodConfig is used for production.  
->>There is a test email account for this repo, you can just use or change it to your email account.  
->>Remember to set the url which is this application's url, that will appear in the email you send to your friends.  
+>>There is a test email account for this repo, you can just use the email account or change it to your own.  
+>>Remember to set the url in the configuration, as that url will appear in the email you send to your friends to invite them for collaboration on the collections.  
 
 >Client:
 >>Client configurations are set in /restaurant/client/src/environments  
