@@ -24,7 +24,7 @@ const defaultConfig: Config = {
     url: 'http://localhost:4200', // for email template
     jwt:{
         secret: 'secret',
-        expiresIn: 60 * 60 * 60 * 24 // unit: second
+        expiresIn: 60 * 60 * 24 // unit: second
     }
 }
 
