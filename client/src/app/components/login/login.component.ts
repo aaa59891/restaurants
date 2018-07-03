@@ -33,18 +33,7 @@ export class LoginComponent extends DestroyHelper implements OnInit {
                     this.loginSignupSuccess(res);
                 },
                 (err: HttpErrorResponse) => {
-                    console.error(err);
-                    switch(err.error){
-                        case LoginError.EmailNotExist:
-                            alert('This email does not exist, please sign up first.');
-                            break;
-                        case LoginError.WrongPassword:
-                            alert('Password is incorrect!');
-                            break;
-                        default:
-                            alert('Unknow error.')
-                            break;
-                    }
+                    alert('Email does not exist or password is incorrect.');
                 }
             )
     }
