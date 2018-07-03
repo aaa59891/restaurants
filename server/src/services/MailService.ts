@@ -8,7 +8,7 @@ export class MailService{
         this.mailHelper = new MailHelper(config.email.service, config.email.account, config.email.password);
     }
     async sendMailToEmail(to: string, userId: number){
-        const mailTemplate = CollaborationEmail;
+        const mailTemplate = {...CollaborationEmail};
         const token = JwtHelper.createJwt({userId});
         const url = config.url + `/collaborate?token=${token}`;
         mailTemplate.text = mailTemplate.text.replace('{url}', url); 
