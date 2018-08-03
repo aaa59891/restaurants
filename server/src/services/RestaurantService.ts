@@ -8,7 +8,12 @@ WHERE restaurant.id IN(
 	SELECT DISTINCT(restaurantId) FROM opening_hours AS oh
 	WHERE 1=1 
 	AND oh.day = ?
-	AND oh.openTime <= ? AND oh.closeTime > ?
+	AND 
+		CASE WHEN oh.openTime < oh.closeTime THEN
+			oh.openTime <= ? AND oh.closeTime > ?
+		ELSE 
+			oh.openTime <= ? OR oh.closeTime > ? 
+		END
 )
 `
 
@@ -24,6 +29,6 @@ export class RestaurantService extends AbstractService<Restaurant>{
         const timeStr = time.toTimeString().slice(0, 8);
         return this.repository.query(
             SQL_OPENING_RESTAURANTS, 
-            [day === 0? 7: day, timeStr, timeStr]);
+            [day === 0? 7: day, timeStr, timeStr, timeStr, timeStr]);
     }
 }
