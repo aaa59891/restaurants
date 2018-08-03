@@ -40,14 +40,42 @@ export class InitRestaurant{
                 const time = cur.slice(i).split('-');
                 const openTime = this.parseTime(time[0].trim());
                 const closeTime = this.parseTime(time[1].trim());
-                return pre.concat(...this.getDays(day).map((d) => {
-                    const oh = new OpeningHours();
-                    oh.day = d;
-                    oh.openTime = openTime;
-                    oh.closeTime = closeTime;
-                    return oh;
-                }))
+                return pre.concat(...this.getDays(day).reduce((pre, cur) => {
+                    return pre.concat(this.createOpeningHours(openTime, closeTime, cur));
+                }, []))
             }, []);
+    }
+
+    private createOpeningHours(openTime, closeTime, day){
+        let result = [];
+        if(this.isTimeGreaterThanSecond(closeTime, openTime) || closeTime === '0:00'){
+            const oh = new OpeningHours();
+            oh.day = day;
+            oh.openTime = openTime;
+            oh.closeTime = closeTime;
+            result.push(oh);
+        }else{
+            const oh1 = new OpeningHours();
+            const oh2 = new OpeningHours();
+            oh1.day = day;
+            oh1.openTime = openTime;
+            oh1.closeTime = '00:00';
+            oh2.day = day === 7? 1: day + 1;
+            oh2.openTime = '00:00';
+            oh2.closeTime = closeTime;
+            result = result.concat([oh1, oh2]);
+        }
+        return result;
+    }
+
+    private isTimeGreaterThanSecond(fir, sec){
+        fir = fir.split(':');
+        sec = sec.split(':');
+        if(parseInt(fir[0]) > parseInt(sec[0])){
+            return true;
+        }else{
+            return parseInt(fir[0]) === parseInt(sec[0])?  parseInt(fir[1]) > parseInt(fir[0]): false; 
+        }
     }
 
     private getDays(data: string): number[]{
